@@ -11,8 +11,20 @@
 
     <script src="https://unpkg.com/supersimpledev/babel.js"></script>
     <script type="text/babel">
+      const productCost = 10 + 8 * 2;
+      const shippingCost = 5;
+      const totalCost = productCost + shippingCost; 
+      const div = (
+        <div>
+          <p>Product cost: ${productCost}</p>
+          <p>Shipping cost: ${shippingCost}</p>
+          <p>Total cost: ${totalCost}</p>
+          <button>Place your order</button>
+        </div>
+      );
+      
       const container = document.querySelector('.js-container');
-      ReactDOM.createRoot(container).render('Welcome to SuperSimpleDev React Course');
+      ReactDOM.createRoot(container).render(div);
     </script>
   </body>
 </html>
