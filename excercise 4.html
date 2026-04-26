@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body style="font-family: Arial;">
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <style>
+      .on-off-button {
+        background-color: rgb(25, 135, 84);
+        color:white;
+        border-radius: 8px;
+        border:none;
+        padding: 15px 20px;
+        font-size:15px;
+      }
+
+      .on-off-button-on {
+        background-color: rgb(25, 135, 84);
+      }
+      .on-off-button-on:hover {
+        cursor: pointer;
+        background-color: rgb(20, 105, 65);
+      }
+
+      .on-off-button-off {
+        background-color: rgb(159, 27, 27);
+      }
+      .on-off-button-off:hover {
+        cursor: pointer;
+        background-color: rgb(135, 25, 25);
+      }
+
+    </style>
+    <script type="text/babel">
+
+      //On-Off-Button
+      function OnOffButton() {
+        
+        const [isButtonOn, setIsButtonOn] = React.useState(true);
+
+        function changeButtonState() {
+          setIsButtonOn(!isButtonOn);
+        }
+  
+        return (
+          <>
+            <button onClick={changeButtonState} className={isButtonOn ? "on-off-button on-off-button-on" : "on-off-button on-off-button-off"}>
+              {isButtonOn ? "On" : "Off"}
+            </button>
+          </>
+        );
+      }
+
+      //App
+      function App() {
+        return (    
+          <div>
+            <OnOffButton />
+          </div>
+        );
+      }
+
+      const container = document.querySelector('.js-container');
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>

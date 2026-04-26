@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body style="font-family: Arial;">
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script src="https://unpkg.com/supersimpledev/dayjs.js"></script>
+    <style>
+      body {
+        font-family: Arial;
+      }
+
+      h1 {
+        font-weight:500;
+      }
+
+      .login-container {
+        display:flex;
+        flex-direction: column;
+        max-width: 600px;
+      }
+
+      .login-input-container {
+        display:flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .login-input {
+        border-width: 1px;
+        border-radius:8px;
+        width: 250px;
+        padding:10px 15px;
+      }
+
+      .show-password-button {
+        background-color: rgb(134, 134, 134);
+        color:white;
+        border:none;
+        border-radius:8px;
+        padding:10px 15px;
+        margin-left: 10px;
+        min-width: 65px;
+      }
+      .show-password-button:hover {
+        cursor: pointer;
+        background-color: rgb(105, 105, 105);
+      }
+
+      .login-button {
+        background-color: rgb(0, 123, 255);
+        color:white;
+        border:none;
+        border-radius:8px;
+        padding: 10px 15px;
+        margin-right: 10px;
+      }
+      .login-button:hover {
+        background-color: rgb(21, 100, 184);
+        cursor: pointer;
+      }
+    </style>
+    <script type="text/babel">
+
+      //Login-Eingabefeld
+      function LoginInput({placeholder, showPassword}) {
+        return (
+          <input type={showPassword ? 'text' : 'password'} className="login-input" placeholder={placeholder}/>
+        );
+      }
+
+      //Paswort anzeigen Button
+      function ShowPasswordButton({showPassword, setShowPassword}) {
+        
+        function changeShowPasswordState() {
+          setShowPassword(!showPassword);
+        }
+
+        return (
+          <button className="show-password-button" onClick={changeShowPasswordState}>
+            {showPassword ? "Hide" : "Show"}
+          </button>
+        );
+      }
+
+      //Login-Button 
+      function LoginButton ({displayText}) {
+        return (
+          <>
+            <button className="login-button">
+              {displayText}
+            </button>
+          </>
+        );
+      }
+
+
+      //Uhr
+      function Clock() {
+        let [time, setTime] = React.useState(dayjs().format('HH:mm:ss'));
+        React.useEffect(() => {
+          setInterval(() => {
+            setTime(dayjs().format('HH:mm:ss'));
+            console.log(time);
+          }, 1000);
+        }, []);
+      }
+
+      //App
+      function App() {
+        let [showPassword, setShowPassword] = React.useState(false);
+        
+        return (    
+          <div className="login-container">
+            <h1>Hello, welcome to my website</h1>  
+            <div className="login-input-container">
+              <LoginInput placeholder="Email"/>
+            </div>
+            <div className="login-input-container">
+              <LoginInput placeholder="Password" showPassword={showPassword}/>
+              <ShowPasswordButton showPassword={showPassword} setShowPassword={setShowPassword}/>
+            </div>
+            <div>
+              <LoginButton displayText="Login"/>
+              <LoginButton displayText="Sign Up"/>
+            </div>
+            <Clock />
+          </div>
+        );
+      }
+
+      const container = document.querySelector('.js-container');
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>
