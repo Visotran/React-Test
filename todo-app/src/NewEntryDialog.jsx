@@ -1,39 +1,61 @@
 import "./NewEntryDialog.css";
+import { useEffect } from "react"
 
 function NewEntryDialog({isOpen, name, deadline, setName, setDeadline, onAdd, onClose}) {
+    
+  useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+    }
+  })
+  
   if (!isOpen) return null;  
   
   return (
-    <div className="confirm-dialog-container">
-      <h2>Neuen Todo-Eintrag hinzufügen</h2>
-      
-      <p>
-        Welche Aufgabe willst du erledigen:
-      </p>
+    <div className="overlay-container" >
+      <div className="confirm-dialog-container">
+        <h2>Neuen Todo-Eintrag hinzufügen</h2>
+          
+        <p className="confirm-dialog-label">
+          Welche Aufgabe willst du erledigen:
+        </p>
 
-      <input
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Todo Name"
-      />
+        <input
+          className="confirm-dialog-input"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Todo Name"
+        />
 
-      <p>
-        Bis wann soll die Aufgabe erledigt sein:
-      </p>
+        <p className="confirm-dialog-label">
+          Bis wann soll die Aufgabe erledigt sein:
+        </p>
 
-      <input
-        type="datetime-local"
-        value={deadline}
-        onChange={(e) => setDeadline(e.target.value)}
-      />
+        <input
+          className="confirm-dialog-input"
+          type="datetime-local"
+          value={deadline}
+          onChange={(e) => setDeadline(e.target.value)}
+        />
 
-      <button onClick={onAdd}>
-        Hinzufügen
-      </button>
+        <div className="dialog-buttons-container">
+          <button className="confirm-add-button" onClick={onAdd}>
+            Hinzufügen
+          </button>
 
-      <button onClick={onClose}>
-        Abbrechen
-      </button>
+          <button className="cancel-add-button" onClick={onClose}>
+            Abbrechen
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

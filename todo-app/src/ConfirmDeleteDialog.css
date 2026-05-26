@@ -1,13 +1,27 @@
-.confirm-dialog-container {
+.delete-dialog-container {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 101;                   
+
+  background-color: #23385e ;
+  border-radius: 30px;
+  padding: 40px 50px;
+  width: 500px;
+  max-width: 90vw;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
+  justify-content: center;
+  gap: 12px;
+}
+
+.delete-dialog-text {
+  font-size:20px;
+  margin-top:0px;
+  margin-bottom:50px;
+  line-height: 1.75;
 }

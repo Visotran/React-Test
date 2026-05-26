@@ -1,10 +1,28 @@
 .todo-entry-container {
     display:flex;
-    justify-content: space-evenly;
+    justify-content:center;
     align-items: center;
-    font-size:20px;
+    font-size:24px;
 }
-
-p {
-    margin-right:25px;
+.todo-entry-name {
+    flex:1;
+}
+.delete-button {
+    background-color: rgb(180, 0, 0);
+    border:none;
+    padding: 10px;
+    margin-left: 50px;
+    border-radius: 15px;
+    color: white;
+    font-size:20px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    width:40px;
+    height:40px;
+    font-weight:bold;
+}
+.delete-button:hover {
+    background-color: rgb(155, 7, 7);
+    cursor:pointer;
 }

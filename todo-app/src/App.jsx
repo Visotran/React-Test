@@ -11,7 +11,7 @@ function App() {
   //Todo Einträge als State 
   const [todos, setTodos] = useState(() => {
     const stored = localStorage.getItem("todos")
-    return stored ? JSON.parse(stored) : todosJSON
+    return (stored && stored !== "[]") ? JSON.parse(stored) : todosJSON
   });
   console.log(todos);
 

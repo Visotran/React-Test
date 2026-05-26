@@ -1,12 +1,27 @@
 [
   {
     "id": 1,
-    "name": "Todo 1",
-    "deadline": "2026-05-26T14:30"
+    "name": "Projektstruktur React aufräumen",
+    "deadline": "2026-05-27T10:00"
   },
   {
     "id": 2,
-    "name": "Todo 2",
-    "deadline": "2026-05-26T16:00"
+    "name": "Git Repository pushen und dokumentieren",
+    "deadline": "2026-05-27T12:30"
+  },
+  {
+    "id": 3,
+    "name": "Todo-App um Edit-Funktion erweitern",
+    "deadline": "2026-05-27T15:45"
+  },
+  {
+    "id": 4,
+    "name": "Einkaufen gehen",
+    "deadline": "2026-05-27T18:00"
+  },
+  {
+    "id": 5,
+    "name": "React Hooks wiederholen (useState, useEffect)",
+    "deadline": "2026-05-28T09:00"
   }
 ]
