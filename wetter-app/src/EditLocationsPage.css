@@ -1,0 +1,188 @@
+.edit-locations-page {
+	display:flex;
+	justify-content: center;
+	align-items: center;
+  margin:0;
+  min-height: 100vh;
+}
+
+.edit-locations-container {
+  background-color: rgba(0,0,0,0.25);
+  border-radius:30px;
+  width:80%;
+  min-height:60vh;
+  margin-bottom:50px;
+  margin-top:50px;
+  padding:50px;
+  color:white;
+}
+
+.edit-locations-main {
+  display:flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+/*Linker Teil*/
+.edit-locations-left {
+  width:50%;
+  padding-right:35px;
+}
+
+.city-row {
+  display:flex;
+  justify-content: baseline;
+  align-items: baseline;
+  background-color: rgba(0,0,0,0);
+  border:none;
+  border-radius:20px;
+  margin-bottom:20px;
+  padding: 10px 15px;
+}
+
+.city-row-text {
+  font-size:20px;
+  text-align:left;
+  margin:0;
+  margin-right:10px;
+}
+
+.city-row-text-small {
+  color: white;
+  font-size:14px;
+  text-align:left;
+  margin:0;
+  margin-right:10px;
+}
+
+
+.delete-location-button {
+  background-color: rgb(190, 0, 0);
+  border:none;
+  border-radius: 12px;
+  color: white;
+  font-size:20px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  width:35px;
+  height:35px;
+  font-weight:bold;
+  margin-right:10px;
+  position: relative;
+}
+.delete-location-button:hover {
+  background-color: rgb(175, 5, 5);
+  cursor:pointer;
+}
+
+.tooltiptext {
+  top: -26px;
+  left: 97.5%;
+  visibility: hidden; 
+  background-color: rgba(30,30,30,0.65);
+  color: #ffffff;
+  text-align: center;
+  padding: 10px 15px;
+  border-radius: 10px;
+  position: absolute;
+  z-index: 1; 
+  opacity:0;
+  transition: opacity 0.3s;
+  font-weight: normal;
+  font-size:14px;
+}
+.delete-location-button:hover .tooltiptext {
+  visibility: visible;
+  opacity:1;
+}
+
+/*Rechter Teil*/
+.edit-locations-right {
+  width:50%;
+  padding-left:35px;
+}
+.edit-locations-right-input {
+  display:flex;
+  justify-content: start;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.edit-locations-right-inputfield {
+  padding:10px;
+  border-radius: 10px;
+  border:none;
+  font-size:16px;
+  margin-right:20px;
+}
+.edit-locations-right-inputfield:focus {
+  outline: none;
+  padding:8.5px;
+  border: 2px solid rgb(28, 28, 28);
+}
+
+.edit-location-right-suggestions-title {
+  font-size:20px;
+  margin-top:40px;
+}
+
+.edit-locations-right-suggestions {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:baseline;
+}
+
+.location-suggestion-button {
+  display:flex;
+  justify-content: baseline;
+  align-items: baseline;
+  background-color: rgba(0,0,0,0);
+  border:none;
+  border-radius:20px;
+  margin-bottom:20px;
+  padding: 10px 15px;
+}
+.location-suggestion-button:hover {
+  background-color: rgba(0,0,0,0.2);
+  cursor:pointer;
+}
+
+.suggested-city-row-text {
+  color: white;
+  font-size:20px;
+  text-align:left;
+  margin:0;
+  margin-right:10px;
+}
+.suggested-city-row-text-small {
+  color: white;
+  font-size:14px;
+  text-align:left;
+  margin:0;
+  margin-right:10px;
+}
+
+
+/*Back Button*/
+.back-button-container {
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top:50px;
+}
+
+.back-button {
+  padding: 10px 20px;
+  background: rgba(0,0,0,0.15);
+  color:white;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+  font-size:20px;
+}
+.back-button:hover {
+  cursor:pointer;
+  background: rgba(0,0,0,0.25);
+}

@@ -1,89 +1,56 @@
-import { useState } from 'react';
+import { Routes, Route} from 'react-router';
+import {useState, useEffect} from 'react';
+import StartingPage from './StartingPage';
+import EditLocationsPage from './EditLocationsPage';
 import './App.css';
-import pinIcon from "./assets/44334.png";
 
 function App() {
 
-  //React States für die Auswahl der Städte
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [currentCity, setCurrentCity] = useState();
-  const [cities, setCities] = useState(["Leipzig", "Berlin"]);
+  //Alle gespeicherten Städte laden
+  const [cities, setCities] = useState(() => {
+    const savedCities = localStorage.getItem("cities");
+
+    return savedCities? JSON.parse(savedCities) : [];
+
+  })
+
   const [weatherData, setWeatherData] = useState();
 
-  //Aktuell geöffnete Seite
-  const TABS = [
-    { id: "general", label: "Allgemein" },
-    { id: "now", label: "Jetzt" },
-    { id: "hourly", label: "Stündlich" },
-    { id: "daily", label: "Täglich" },
-  ];
-  const [currentTab, setCurrentTab] = useState("general");
+  const [currentCity, setCurrentCity] = useState(() => {
+    const savedCity = localStorage.getItem("currentCity");
 
-  //Stadt aus dem Dropdown auswählen
-  function handleCityChange(city) {
-    setCurrentCity(city);
-    setDropdownOpen(false);
+    return savedCity? JSON.parse(savedCity) : {
+      id:0,
+      name: "Keine Orte",
+      state: "",
+      country: "",
+      lat: 0,
+      lng: 0
+    };
 
-    //API-Aufruf
-    setWeatherData();
-  }
+  });
+
+  //Funktion zum Speichern aller Orte wenn cities verändert wird
+  useEffect(() => {
+    localStorage.setItem(
+      "cities",
+      JSON.stringify(cities)
+    );
+  }, [cities]);
+
+  //Funktion zum Speichern des aktuell ausgewählten Orts wenn currentCity verändert wird
+  useEffect(() => {
+    localStorage.setItem(
+      "currentCity",
+      JSON.stringify(currentCity)
+    );
+  }, [currentCity]);
 
   return (
-    <div className="app-container">
-      <section className="location-selector-container">
-        <img className="pin-icon" src={pinIcon}></img>
-        <div className="location-selector-dropdown">
-          <button className="location-selector-dropdown-button" onClick={() => setDropdownOpen(!dropdownOpen)}>
-            {currentCity}
-          </button>
-          {dropdownOpen && (
-            <div className="location-selector-dropdown-menu">
-              {cities.map((city) => (
-                <div
-                  key={city}
-                  className="location-selector-dropdown-option"
-                  onClick={() => {
-                    handleCityChange(city);
-                  }}>
-                  {city}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-        <button className="add-location-button">+</button>
-      </section>
-      <main className="main">
-          <section className="overview-container">
-            <div className="overview-temperature-container">
-              <div className="overview-current-temperature-container">
-                <h1 className="current-temperature">31°C</h1>
-                <span className="current-weather">Sonnig</span>
-              </div>
-              <div className="overview-extreme-temperatures-container">
-                 <span className="extreme-temperatures">&#8593; 31°C</span>
-                 <span className="extreme-temperatures">&#8595; 12°C</span>
-              </div>
-            </div>
-            <img className="overview-icon" src="https://cdn-icons-png.flaticon.com/128/1163/1163661.png"></img>
-          </section>
-          <nav className="details-type-selector">
-            {
-              TABS.map(tab => (
-                <button key={tab.id} onClick={() => setCurrentTab(tab.id)} className={tab.id === currentTab ? "details-type-button-active" : "details-type-button"}>
-                  {tab.label}
-                </button>
-              ))
-            }
-          </nav>
-          <section className="details-container">
-            {currentTab.id === "general" && <GeneralWeather />}
-            {currentTab.id === "now" && <NowWeather />}
-            {currentTab.id === "hourly" && <HourlyWeather />}
-            {currentTab.id === "daily" && <DailyWeather />}
-          </section>
-      </main>
-    </div>
+    <Routes>
+      <Route path="/" element={<StartingPage cities={cities} weatherData={weatherData} setWeatherData={setWeatherData} currentCity={currentCity} setCurrentCity={setCurrentCity}/>}></Route>
+      <Route path="/edit" element={<EditLocationsPage cities={cities} setCities={setCities} currentCity={currentCity} setCurrentCity={setCurrentCity}/>}></Route>
+    </Routes>
   )
 }
 
