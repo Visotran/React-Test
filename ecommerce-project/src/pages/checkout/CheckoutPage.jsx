@@ -1,8 +1,6 @@
 import axios from 'axios';
-import dayjs from 'dayjs';
 import { useState, useEffect } from 'react';
 import { CheckoutHeader } from './CheckoutHeader';
-import { formatMoney } from '../../utils/money'
 import './CheckoutPage.css';
 import { OrderSummary } from './OrderSummary';
 import { PaymentSummary } from './PaymentSummary';
@@ -13,12 +11,16 @@ export function CheckoutPage({ cart }) {
   const [paymentSummary, setPaymentSummary] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/delivery-options?expand=estimatedDeliveryTime').then((response) => {
+
+    const fetchCheckoutData = async () => {
+      let response = await axios.get('/api/delivery-options?expand=estimatedDeliveryTime');
       setDeliveryOptions(response.data);
-    });
-    axios.get('/api/payment-summary').then((response) => {
+
+      response = await axios.get('/api/payment-summary');
       setPaymentSummary(response.data);
-    })
+    }
+
+    fetchCheckoutData();
   }, []);
 
 
