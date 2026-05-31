@@ -50,7 +50,7 @@ export function CheckoutPage({ cart }) {
 
                     <div className="cart-item-details">
                       <div className="product-name">
-                        cartItem.product.name
+                        {cartItem.product.name}
                       </div>
                       <div className="product-price">
                         {formatMoney(cartItem.product.priceCents)}
