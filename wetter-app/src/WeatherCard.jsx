@@ -1,9 +1,12 @@
 import "./WeatherCard.css"
 
-function WeatherCard(props) {
+function WeatherCard({ title, children }) {
   return (
     <div className="weather-card">
-      {props.children}
+      <h2 className="card-header">{title}</h2>
+      <div className="card-body">
+        {children}
+      </div>
     </div>
   )
 }

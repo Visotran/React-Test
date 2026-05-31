@@ -3,8 +3,11 @@
   justify-content: start;
   align-items:start;
   padding:50px 30px;
+  padding-bottom: 0;
 }
 
+
+/*Location Auswahl*/
 .location-selector-container {
   min-width: 150px;
   display:flex;
@@ -64,7 +67,6 @@
   background: rgba(0,0,0,0.25);
 }
 
-
 .add-location-button {
   color:White;
   border:none;
@@ -89,9 +91,10 @@
 }
 
 
+/*Hauptteil*/
 .main {
-  padding-right:150px;
-  flex:1;
+  padding-right:200px;
+  width:100%;
 }
 
 .overview-container {
@@ -99,7 +102,7 @@
   justify-content:flex-start;
   align-items: center;
   color: white;
-  padding-top:75px;
+  padding-top:0px;
   padding-left:25px;
 }
 
@@ -142,7 +145,8 @@
 }
 
 .details-container {
-
+  width: 100%;
+  overflow-x: hidden;
 }
 
 
@@ -150,7 +154,9 @@
   display:flex;
   justify-content:space-between;
   align-items: center;
-  margin-top:50px;
+  margin-top:35px;
+  margin-bottom: 25px;
+  width:100%
 }
 
 .details-type-button, .details-type-button-active {
@@ -171,9 +177,9 @@
 }
 
 .details-type-button-active {
-  background-color:rgba(75, 75, 75, 0.2);
+  background-color:rgba(0,0,0,0.2);
 }
 .details-type-button-active:hover {
   cursor:pointer;
-  background-color:rgba(75, 75, 75, 0.4);
+  background-color:rgba(0,0,0, 0.3);
 }

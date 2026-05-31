@@ -1,5 +1,190 @@
 .top-part, .bottom-part {
-    display:flex;
-    justify-content: space-evenly;
-    align-items: center;
+  display:grid;
+  align-items: center;
+}
+.top-part {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap:50px;
+  margin-bottom: 25px;
+}
+.bottom-part {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap:30px;
+}
+
+.big-card {
+  width: 600px;
+  height: 240px;
+}
+
+.small-card {
+  width: 300px;
+  height: 120px;
+}
+
+.general-hourly-container, .general-daily-container {
+  display: grid;
+  flex:1;
+  gap: 25px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #fff transparent;
+
+  padding-bottom: 8px;
+}
+
+
+/*24h Vorhersage*/
+.general-hourly-container {
+  grid-template-columns: repeat(24, 1fr);
+  gap: 46px;
+}
+
+.general-hourly-element {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: start;
+}
+
+.general-hourly-element-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom:10px;
+}
+
+.general-hourly-element-text {
+  margin-bottom:10px;
+  font-size:20px;
+  text-align: left;
+}
+
+.general-hourly-element-time {
+  margin-top:10px;
+  font-size:16px;
+  font-weight: bold;
+  text-align: left;
+}
+
+
+/*5 Tage Vorhersage*/
+.general-daily-container {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.general-daily-element {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: start;
+}
+
+.general-daily-element-icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom:10px;
+}
+
+.general-daily-element-text {
+  font-size:20px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.general-daily-element-time {
+  margin-top:10px;
+  font-size:16px;
+  font-weight: bold;
+  text-align: left;
+}
+
+
+/*UV-Index*/
+.general-uv-container {
+  padding:15px;
+  padding-top:0px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #fff transparent;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.general-uv-text {
+  font-size:20px;
+}
+
+.uv-slider {
+  --uv-index: 8; /* Wertebereich 0 - 11+ */
+
+  position: relative;
+  height: 16px;
+  border-radius: 999px;
+  margin-top: 20px;
+
+  background: linear-gradient(
+    to right,
+    #00c853 0%,     /* Grün */
+    #aeea00 25%,    /* Gelbgrün */
+    #ffd600 45%,    /* Gelb */
+    #ff9100 65%,    /* Orange */
+    #ff3d00 80%,    /* Rot */
+    #aa00ff 100%    /* Violett */
+  );
+
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.25);
+}
+.uv-handle {
+  position: absolute;
+  top: 50%;
+  left: calc(min(var(--uv-index), 11) / 11 * 100%);
+
+  transform: translate(-50%, -50%);
+
+  width: 24px;
+  height: 24px;
+
+  border-radius: 50%;
+  background: rgba(0,0,0,0.65);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+
+  box-shadow:
+    0 3px 8px rgba(0,0,0,0.5),
+    0 0 0 2.5px white;
+}
+
+
+.general-wind-container {
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #fff transparent;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.general-wind-text {
+  font-size:20px;
+}
+
+.general-wind-direction-container {
+  display:flex;
+  align-items: center;
+  margin-top:10px;
+}
+
+.general-wind-direction-icon {
+  width:26px;
+  height:26px;
+  margin-right: 8px;
 }
