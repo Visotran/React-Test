@@ -1,0 +1,15 @@
+.now-container {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap:50px;
+}
+
+.now-precipitation-text{
+  font-size:20px;
+  display:block;
+  margin-bottom:10px;
+}
+
+.now-humidity-text {
+  font-size:20px;
+}

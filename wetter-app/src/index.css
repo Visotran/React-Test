@@ -7,3 +7,29 @@ body {
 *, *::before, *::after {
   box-sizing: border-box;
 }
+
+/*Seitliche Scrollbar*/
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* Track (Hintergrund) */
+::-webkit-scrollbar-track {
+  background: #1e1e1e;
+}
+
+/* Thumb (der bewegliche Teil) */
+::-webkit-scrollbar-thumb {
+  background: #ffffff;
+  border-radius: 6px;
+}
+
+/* Hover-Effekt */
+::-webkit-scrollbar-thumb:hover {
+  background: #ffffff;
+}
+
+* {
+  scrollbar-width:none; /* auto | thin | none */
+  scrollbar-color: #ffffff #1e1e1e; /* thumb | track */
+}

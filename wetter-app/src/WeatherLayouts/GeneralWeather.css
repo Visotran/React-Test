@@ -1,26 +1,21 @@
-.top-part, .bottom-part {
+.top-part, .middle-part, .bottom-part {
   display:grid;
   align-items: center;
+  margin-bottom: 20px;
 }
 .top-part {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap:50px;
-  margin-bottom: 25px;
 }
-.bottom-part {
+.middle-part {
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap:30px;
 }
-
-.big-card {
-  width: 600px;
-  height: 240px;
+.bottom-part {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap:30px;
 }
 
-.small-card {
-  width: 300px;
-  height: 120px;
-}
 
 .general-hourly-container, .general-daily-container {
   display: grid;
@@ -116,6 +111,8 @@
 
 .general-uv-text {
   font-size:20px;
+  display:block;
+  margin-bottom:10px;
 }
 
 .uv-slider {
@@ -165,6 +162,13 @@
 }
 
 
+/*Gefühlte Temperatur*/
+.general-apparent-text{
+  font-size:20px;
+}
+
+
+/*Wind*/
 .general-wind-container {
   scroll-snap-type: x mandatory;
   scrollbar-width: thin; /* Firefox */
@@ -187,4 +191,76 @@
   width:26px;
   height:26px;
   margin-right: 8px;
+}
+
+
+.general-cloud-text {
+  font-size: 20px;
+}
+
+
+/*Sonnenaufgang und -untergang*/
+.general-sun-container {
+  padding:8px;
+  padding-top:0px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #fff transparent;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.general-sun-slider {
+  --uv-index: 8; /* Wertebereich 0 - 11+ */
+
+  position: relative;
+  height: 10px;
+  border-radius: 999px;
+  margin-top: 20px;
+
+  background: linear-gradient(
+    to right,
+    #111 0%, 
+    #008cff 25%,  
+    #008cff 80%,   
+    #111 100% 
+  );
+
+  box-shadow: inset 0 0 4px rgba(0,0,0,0.25);
+}
+
+.general-sun-handle {
+  position: absolute;
+  top: 50%;
+  left: calc(min(var(--time), 86400) / 86400 * 100%);
+
+  transform: translate(-50%, -50%);
+
+  width: 20px;
+  height: 20px;
+
+  border-radius: 50%;
+  background: rgb(255, 247, 0);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1rem;
+  font-weight: 700;
+  color: white;
+
+  box-shadow:
+    0 0 0 2.5px rgb(255, 221, 0);
+}
+
+.general-sun-text-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top:15px;
+}
+
+.general-sun-text {
+  font-size:16px;
 }

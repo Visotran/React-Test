@@ -1,0 +1,34 @@
+.tomorrow-container {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap:50px;
+}
+
+.tomorrow-normal-text {
+  font-size:20px;
+  display:block;
+  margin-bottom:10px;
+}
+
+.tomorrow-general-icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom:10px;
+  display:block;
+}
+
+.arrow-symbol {
+  font-size:24px;
+  margin-right:4px;
+}
+
+.mean-symbol {
+  font-size:30px;
+  margin-right:4px;
+}
+
+.tomorrow-temperature-element {
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+}

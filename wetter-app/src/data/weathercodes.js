@@ -151,20 +151,20 @@ const weatherCodes = {
 
   95: {
     text: "Gewitter",
-    iconDay: "/weather/thunderstorm.png",
-    iconNight: "/weather/thunderstorm.png",
+    iconDay: "/weather/thunder.png",
+    iconNight: "/weather/thunder.png",
   },
 
   96: {
     text: "Gewitter mit leichtem Hagel",
-    iconDay: "/weather/thunderstorm.png",
-    iconNight: "/weather/thunderstorm.png",
+    iconDay: "/weather/thunder.png",
+    iconNight: "/weather/thunder.png",
   },
 
   99: {
     text: "Gewitter mit starkem Hagel",
-    iconDay: "/weather/thunderstorm.png",
-    iconNight: "/weather/thunderstorm.png",
+    iconDay: "/weather/thunder.png",
+    iconNight: "/weather/thunder.png",
   },
 };
 

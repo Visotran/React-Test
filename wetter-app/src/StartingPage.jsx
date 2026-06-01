@@ -5,6 +5,7 @@ import pinIcon from "./assets/44334.png";
 import pen from "./assets/pen.png"
 import GeneralWeather from "./WeatherLayouts/GeneralWeather";
 import NowWeather from "./WeatherLayouts/NowWeather";
+import TomorrowWeather from "./WeatherLayouts/TomorrowWeather";
 import HourlyWeather from "./WeatherLayouts/HourlyWeather";
 import DailyWeather from "./WeatherLayouts/DailyWeather";
 import { formatTemperature, formatWeatherCodeImg, formatWeatherCodeText } from './utils/formating';
@@ -20,42 +21,21 @@ function StartingPage({cities, weatherData, setWeatherData, currentCity, setCurr
 
   //Aktuell geöffnete Seite
   const TABS = [
-    { id: "general", label: "Allgemein" },
-    { id: "now", label: "Jetzt" },
+    { id: "general", label: "Übersicht" },
+    { id: "now", label: "Heute" },
     { id: "tomorrow", label: "Morgen" },
     { id: "hourly", label: "Stündlich" },
     { id: "daily", label: "Täglich" },
   ];
-  const [currentTab, setCurrentTab] = useState({id: "general", label: "Allgemein"});
+  const [currentTab, setCurrentTab] = useState(() => {
+    const currentTab = localStorage.getItem("currentTab");
 
-  //Stadt aus dem Dropdown auswählen
-  function handleCityChange(city) {
-    setCurrentCity(city);
-    setDropdownOpen(false);
-  }
-
-  //Bei Linksklick das Dropdown schließen
-  useEffect(() => {
-    function handleClickOutside(event) {
-      // Nur Linksklick
-      if (event.button !== 0) return;
-
-      // Klick außerhalb?
-      if (dropdownRef.current?.contains(event.target) || ignoreRef.current?.contains(event.target)) {
-        return;
-      }
-
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setDropdownOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+    return currentTab? JSON.parse(currentTab) : {
+      id:"general",
+      label: "Allgemein"
     };
-  }, []);
+  });
+
 
   //Wetter API Aufruf
   useEffect(() => {
@@ -63,7 +43,7 @@ function StartingPage({cities, weatherData, setWeatherData, currentCity, setCurr
       async function fetchWeather() {
         try {
           const response = await fetch(
-            `https://api.open-meteo.com/v1/forecast?latitude=${currentCity.lat}&longitude=${currentCity.lng}&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,apparent_temperature_max,apparent_temperature_min,cloud_cover_mean,wind_speed_10m_mean,precipitation_sum,precipitation_probability_max,uv_index_max,sunshine_duration,precipitation_hours,wind_speed_10m_max&hourly=weather_code,temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,wind_direction_10m,cloud_cover,precipitation,precipitation_probability,uv_index,is_day&current=uv_index,weather_code,apparent_temperature,is_day,precipitation,cloud_cover,wind_speed_10m,wind_direction_10m,temperature_2m,relative_humidity_2m,pressure_msl&timezone=Europe%2FBerlin&forecast_days=16&forecast_hours=24`
+            `https://api.open-meteo.com/v1/forecast?latitude=${currentCity.lat}&longitude=${currentCity.lng}&daily=relative_humidity_2m_mean,weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,daylight_duration,apparent_temperature_max,apparent_temperature_min,cloud_cover_mean,wind_speed_10m_mean,precipitation_sum,precipitation_probability_max,uv_index_max,sunshine_duration,precipitation_hours,wind_speed_10m_max&hourly=weather_code,temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,wind_direction_10m,cloud_cover,precipitation,precipitation_probability,uv_index,is_day&current=visibility,uv_index,weather_code,apparent_temperature,is_day,precipitation,cloud_cover,wind_speed_10m,wind_direction_10m,temperature_2m,relative_humidity_2m,pressure_msl&timezone=Europe%2FBerlin&forecast_days=16&forecast_hours=24`
           );
 
           const data = await response.json();
@@ -88,6 +68,45 @@ function StartingPage({cities, weatherData, setWeatherData, currentCity, setCurr
       setWeatherData("");
     }
   }, [currentCity]);
+
+
+  //Funktion zum Speichern aller Orte wenn cities verändert wird
+  useEffect(() => {
+    localStorage.setItem(
+      "currentTab",
+      JSON.stringify(currentTab)
+    );
+  }, [currentTab]);
+
+  //Stadt aus dem Dropdown auswählen
+  function handleCityChange(city) {
+    setCurrentCity(city);
+    setDropdownOpen(false);
+  }
+
+
+  //Bei Linksklick das Dropdown schließen
+  useEffect(() => {
+    function handleClickOutside(event) {
+      // Nur Linksklick
+      if (event.button !== 0) return;
+
+      // Klick außerhalb?
+      if (dropdownRef.current?.contains(event.target) || ignoreRef.current?.contains(event.target)) {
+        return;
+      }
+
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   //Icon Pfad speichern
   const icon = useMemo(() => {
@@ -151,6 +170,7 @@ function StartingPage({cities, weatherData, setWeatherData, currentCity, setCurr
           <section className="details-container">
             {currentTab.id === "general" && <GeneralWeather weatherData={weatherData} />}
             {currentTab.id === "now" && <NowWeather weatherData={weatherData} />}
+            {currentTab.id === "tomorrow" && <TomorrowWeather weatherData={weatherData} />}
             {currentTab.id === "hourly" && <HourlyWeather weatherData={weatherData} />}
             {currentTab.id === "daily" && <DailyWeather weatherData={weatherData} />}
           </section>

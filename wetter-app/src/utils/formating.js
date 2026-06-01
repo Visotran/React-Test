@@ -1,4 +1,5 @@
 import weatherCodes from "../data/weathercodes";
+import dayjs from 'dayjs';
 
 export function formatTemperature(temperature) {
   return temperature.toString().replace(".", ",");
@@ -56,4 +57,15 @@ export function degreesToDirection(degrees) {
   const index = Math.round(degrees / 22.5) % 16;
 
   return WIND_DIRECTIONS[index];
+}
+
+export function formatDecimal(num) {
+  return num.toString().replace(".", ",");
+}
+
+export function secondsSinceMidnight(time) {
+  const date = dayjs(time);
+
+  console.log(date.diff(date.startOf("day"), "second"))
+  return date.diff(date.startOf("day"), "second");
 }
