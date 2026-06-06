@@ -19,13 +19,15 @@ function App() {
   useEffect(() => {
     loadCart();
 
-  }, [])
+  }, []);
+
+  window.axios = axios;
 
   return (
     <Routes>
       <Route path="/" element={<HomePage cart={cart} loadCart={loadCart}/>}></Route>
       <Route path="/checkout" element={<CheckoutPage cart={cart} loadCart={loadCart}/>}></Route>
-      <Route path="/orders" element={<OrdersPage cart={cart} />}></Route>
+      <Route path="/orders" element={<OrdersPage cart={cart} loadCart={loadCart} />}></Route>
       <Route path="tracking/:orderId/:productId" element={<TrackingPage cart={cart}/>}></Route>
       <Route path="*" element={<NotFoundPage cart={cart} />}></Route>
     </Routes>

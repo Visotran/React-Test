@@ -119,6 +119,17 @@
   margin-left: 3px;
 }
 
+.update-quantity-input {
+  width:50px;
+  color: rgb(33, 33, 33);
+  background-color: white;
+  border:1px solid rgb(33,33,33);
+  margin-right: 3px;
+  margin-left: 5px;
+  font-size: 14px;
+  padding:3px 5px;
+}
+
 @media (max-width: 1000px) {
   .checkout-page .delivery-options {
     /* grid-column: 1 means this element will be placed
