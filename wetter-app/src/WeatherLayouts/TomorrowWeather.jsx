@@ -79,6 +79,7 @@ function TomorrowWeather({weatherData}) {
               <span className="general-sun-text">{(weatherData?.daily?.sunset[1] || 0).toString().slice(-5)}</span>
             </div>
           </div>
+          <span className="general-sun-duration-text">Sonnenstunden: {((weatherData?.daily?.sunshine_duration[1] || 0) / 3600).toFixed(0).toString()}</span>
       </WeatherCard>
     </div>
   );

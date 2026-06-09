@@ -9,11 +9,11 @@
 }
 .middle-part {
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap:30px;
+  gap:20px;
 }
 .bottom-part {
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap:30px;
+  gap:20px;
 }
 
 
@@ -263,4 +263,9 @@
 
 .general-sun-text {
   font-size:16px;
+}
+
+.general-sun-duration-text {
+  font-size:18px;
+  margin-top: 10px;
 }

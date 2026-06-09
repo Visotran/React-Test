@@ -58,12 +58,12 @@ function NowWeather({weatherData}) {
       </WeatherCard>
       <WeatherCard className="small-card" title="Luftfeuchtigkeit">
         <span className="tomorrow-normal-text">
-          <span class="mean-symbol">&#8960;</span>{weatherData?.daily?.relative_humidity_2m_mean[0] || 0}% 
+          <span className="mean-symbol">&#8960;</span>{weatherData?.daily?.relative_humidity_2m_mean[0] || 0}% 
         </span>
       </WeatherCard>
       <WeatherCard className="small-card" title="Wolken">
           <span className="tomorrow-normal-text">
-            <span class="mean-symbol">&#8960;</span>{weatherData?.daily?.cloud_cover_mean[0] || 0}% bedeckt
+            <span className="mean-symbol">&#8960;</span>{weatherData?.daily?.cloud_cover_mean[0] || 0}% bedeckt
           </span>
       </WeatherCard>
       <WeatherCard className="small-card" title="Sonne">
@@ -79,6 +79,7 @@ function NowWeather({weatherData}) {
               <span className="general-sun-text">{(weatherData?.daily?.sunset[0] || 0).toString().slice(-5)}</span>
             </div>
           </div>
+          <span className="general-sun-duration-text">Sonnenstunden: {((weatherData?.daily?.sunshine_duration[0] || 0) / 3600).toFixed(0).toString()}</span>
       </WeatherCard>
     </div>
   );
