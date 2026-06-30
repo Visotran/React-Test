@@ -23,11 +23,11 @@ function TomorrowWeather({weatherData}) {
           <span className="tomorrow-normal-text">gefühlt</span>
         </div>
         <div className="tomorrow-temperature-element">
-          <span className="tomorrow-normal-text"><span class="arrow-symbol">&#8595;</span>{weatherData?.daily?.temperature_2m_min[1]}°C</span>
+          <span className="tomorrow-normal-text"><span className="arrow-symbol">&#8595;</span>{weatherData?.daily?.temperature_2m_min[1]}°C</span>
           <span className="tomorrow-normal-text">{weatherData?.daily?.apparent_temperature_min[1]}°C</span>
         </div>
         <div className="tomorrow-temperature-element">
-          <span className="tomorrow-normal-text"><span class="arrow-symbol">&#8593;</span>{weatherData?.daily?.temperature_2m_max[1]}°C</span>
+          <span className="tomorrow-normal-text"><span className="arrow-symbol">&#8593;</span>{weatherData?.daily?.temperature_2m_max[1]}°C</span>
           <span className="tomorrow-normal-text">{weatherData?.daily?.apparent_temperature_max[1]}°C</span>
         </div>
         <span className="tomorrow-normal-text"></span>
@@ -47,7 +47,7 @@ function TomorrowWeather({weatherData}) {
       </WeatherCard>
       <WeatherCard className="small-card" title="Wind">
         <div className="general-wind-container">
-          <span className="tomorrow-normal-text"><span class="mean-symbol">&#8960;</span>{formatDecimal(weatherData?.daily?.wind_speed_10m_mean[1] || "?")}km/h</span>
+          <span className="tomorrow-normal-text"><span className="mean-symbol">&#8960;</span>{formatDecimal(weatherData?.daily?.wind_speed_10m_mean[1] || "?")}km/h</span>
           <span className="tomorrow-normal-text">Max: {formatDecimal(weatherData?.daily?.wind_speed_10m_max[1] || "?")}km/h</span>
         </div>
       </WeatherCard>
@@ -58,12 +58,12 @@ function TomorrowWeather({weatherData}) {
       </WeatherCard>
       <WeatherCard className="small-card" title="Luftfeuchtigkeit">
         <span className="tomorrow-normal-text">
-          <span class="mean-symbol">&#8960;</span>{weatherData?.daily?.relative_humidity_2m_mean[1] || 0}% 
+          <span className="mean-symbol">&#8960;</span>{weatherData?.daily?.relative_humidity_2m_mean[1] || 0}% 
         </span>
       </WeatherCard>
       <WeatherCard className="small-card" title="Wolken">
           <span className="tomorrow-normal-text">
-            <span class="mean-symbol">&#8960;</span>{weatherData?.daily?.cloud_cover_mean[1] || 0}% bedeckt
+            <span className="mean-symbol">&#8960;</span>{weatherData?.daily?.cloud_cover_mean[1] || 0}% bedeckt
           </span>
       </WeatherCard>
       <WeatherCard className="small-card" title="Sonne">
