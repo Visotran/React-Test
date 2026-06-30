@@ -1,0 +1,27 @@
+.hourly-element-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  margin-bottom:10px;
+}
+
+.hourly-element-group {
+  display: flex;
+  align-items: center;
+}
+
+.hourly-normal-text {
+  text-align: left;
+  font-size: 20px;
+}
+
+.hourly-weathercode-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.hourly-element-icon {
+  width: 25px;
+  height: 25px;
+  margin-right:5px;
+}

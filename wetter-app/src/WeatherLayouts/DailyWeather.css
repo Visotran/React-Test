@@ -1,0 +1,28 @@
+.daily-element-container {
+  display: grid;
+  grid-template-columns: 0.75fr 0.75fr 1.5fr 1fr 1fr 1fr;
+  align-items: center;
+  margin-bottom:10px;
+}
+
+.daily-element-group {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 0.5fr 1.2fr 1.3fr;
+}
+
+.daily-normal-text {
+  text-align: left;
+  font-size: 20px;
+}
+
+.daily-weathercode-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.daily-element-icon {
+  width: 25px;
+  height: 25px;
+  margin-right:5px;
+}

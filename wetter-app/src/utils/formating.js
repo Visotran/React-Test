@@ -6,7 +6,6 @@ export function formatTemperature(temperature) {
 }
 
 export function formatTemperatureRounded(temperature) {
-  console.log(temperature)
   return temperature.toFixed(0).toString().replace(".", ",");
 }
 
@@ -60,6 +59,7 @@ export function degreesToDirection(degrees) {
 }
 
 export function formatDecimal(num) {
+  if (num === null) return 0
   return num.toString().replace(".", ",");
 }
 
