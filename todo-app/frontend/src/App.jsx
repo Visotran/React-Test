@@ -3,6 +3,7 @@ import TodoEntry from './TodoEntry.jsx';
 import todosJSON from "./data/todos.json"
 import ConfirmDeleteDialog from './ConfirmDeleteDialog.jsx';
 import NewEntryDialog from "./NewEntryDialog.jsx";
+import EditEntryDialog from "./EditEntryDialog.jsx"
 import {useState, useEffect} from "react";
 
 //App
@@ -22,6 +23,9 @@ function App() {
 
   //Dialogfenster zum hinzufügen eines Todo Eintrags als State
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [todoToEdit, setTodoToEdit] = useState(null);
 
   const [name, setName] = useState("");
   const [deadline, setDeadline] = useState("");
@@ -70,6 +74,34 @@ function App() {
     setTodoToDelete(null)
   }
 
+  //Todo bearbeiten
+  function editTodo(todo) {
+    if (!isEditDialogOpen) {
+      setIsEditDialogOpen(true);
+      setName(todo.name);
+      setDeadline(todo.deadline);
+      setTodoToEdit(todo);
+    }
+  }
+
+  function confirmEditTodo() {
+    let newTodos = todos.map(todo => { 
+      if (todo.id === todoToEdit.id) {
+        todo.deadline = deadline;
+        todo.name = name;
+      }
+
+      return todo;
+    });
+
+    setTodos(newTodos);
+
+    localStorage.setItem("todos", JSON.stringify(todos))
+
+    setIsEditDialogOpen(false);
+    setTodoToEdit(null);
+  }
+
 
   //Ausgabe
   return (
@@ -82,6 +114,7 @@ function App() {
                 key={todo.id}
                 todo={todo}
                 onDelete={requestDeleteTodo}
+                onEdit={editTodo}
               />
             ))
           }
@@ -99,6 +132,19 @@ function App() {
           setDeadline={setDeadline}
           onAdd={addTodo}
           onClose={() => setIsAddDialogOpen(false)}
+        />
+        <EditEntryDialog 
+          isOpen={isEditDialogOpen}
+          todo={todoToEdit}
+          name={name}
+          deadline={deadline}
+          setName={setName}
+          setDeadline={setDeadline}
+          onAdd={confirmEditTodo}
+          onClose={() => {
+            setIsEditDialogOpen(false);
+            setTodoToEdit(null)
+          }}
         />
         <button className="add-button" onClick={() => setIsAddDialogOpen(true)}>
           Hinzufügen

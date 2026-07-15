@@ -26,3 +26,28 @@
     background-color: rgb(155, 7, 7);
     cursor:pointer;
 }
+
+.edit-button {
+    background-color: rgb(59, 62, 156);
+    border:none;
+    padding: 10px;
+    margin-left: 50px;
+    border-radius: 15px;
+    color: white;
+    font-size:20px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    width:40px;
+    height:40px;
+    font-weight:bold;   
+}
+.edit-button:hover {
+    background-color: rgb(54, 55, 139);
+    cursor:pointer;
+}
+
+.pen-icon {
+    height:20px;
+    width: 20px;
+}

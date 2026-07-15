@@ -8,11 +8,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const clientPath = path.join(__dirname, "dist");
 
-app.use(express.static(clientPath));
+app.get('/api', (req, res) => {
 
-app.use((req, res) => {
-  res.sendFile(path.resolve(clientPath, "index.html"));
+})
+
+app.post('/api', (req, res) => {
+
 });
+
+app.put('/api:', (req, res) => {
+
+});
+
+app.delete('/api:')
 
 app.listen(3000, () => {
   console.log("Server is listening on Port 3000");
