@@ -1,20 +1,32 @@
 import './App.css';
 import TodoEntry from './TodoEntry.jsx';
-import todosJSON from "./data/todos.json"
 import ConfirmDeleteDialog from './ConfirmDeleteDialog.jsx';
 import NewEntryDialog from "./NewEntryDialog.jsx";
 import EditEntryDialog from "./EditEntryDialog.jsx"
 import {useState, useEffect} from "react";
+import axios from 'axios';
 
 //App
 function App() {
   
   //Todo Einträge als State 
-  const [todos, setTodos] = useState(() => {
-    const stored = localStorage.getItem("todos")
-    return (stored && stored !== "[]") ? JSON.parse(stored) : todosJSON
-  });
-  console.log(todos);
+  const [todos, setTodos] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const {data: response} = await axios.get('http://localhost:3000/api');
+        setTodos(response);
+      } catch (error) {
+        console.error(error.message);
+      }
+      setLoading(false);
+    }
+
+    fetchData();
+  }, []);
 
   //Änderungen in Todo Einträgen als Effect
   useEffect(() => {

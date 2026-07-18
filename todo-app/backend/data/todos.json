@@ -12,16 +12,16 @@
   {
     "id": 3,
     "name": "Todo-App um Edit-Funktion erweitern",
-    "deadline": "2026-05-27T15:45"
-  },
-  {
-    "id": 4,
-    "name": "Einkaufen gehen",
-    "deadline": "2026-05-27T18:00"
+    "deadline": "2026-08-01T00:00"
   },
   {
     "id": 5,
     "name": "React Hooks wiederholen (useState, useEffect)",
     "deadline": "2026-05-28T09:00"
+  },
+  {
+    "id": 1784398242431,
+    "name": "Zimmer aufräumen",
+    "deadline": "2026-07-24T20:00"
   }
 ]
