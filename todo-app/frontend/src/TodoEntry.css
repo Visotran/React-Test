@@ -8,7 +8,7 @@
     flex:1;
 }
 .delete-button {
-    background-color: rgb(180, 0, 0);
+    background-color: #d94545;
     border:none;
     padding: 10px;
     margin-left: 50px;
@@ -23,7 +23,7 @@
     font-weight:bold;
 }
 .delete-button:hover {
-    background-color: rgb(155, 7, 7);
+    background-color: #9e273d;
     cursor:pointer;
 }
 
