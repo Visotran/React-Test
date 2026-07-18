@@ -4,3 +4,10 @@ body {
   font-family: Arial;
   margin: 0
 }
+
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;  
+}
