@@ -20,7 +20,7 @@ function StatusMessage({error, loading}) {
   if (loading) return (
     <div className="loading-container">
       <div className="loading-icon"></div>
-      <p className="add-entry-loading-message">Todo-Eintrag speichern...</p>
+      <p className="loading-message">Todo-Eintrag speichern...</p>
     </div>
   )
 
