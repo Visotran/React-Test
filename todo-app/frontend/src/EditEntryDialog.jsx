@@ -1,4 +1,4 @@
-import "./NewEntryDialog.css";
+import "./EditEntryDialog.css";
 import { useEffect } from "react"
 
 function NewEntryDialog({isOpen, name, deadline, todo, setName, setDeadline, onAdd, onClose}) {

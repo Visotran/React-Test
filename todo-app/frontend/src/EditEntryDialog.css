@@ -17,7 +17,7 @@ h2 {
   transform: translate(-50%, -50%);
   z-index: 101;                   
 
-  background-color: #23385e ;
+  background-color: #273349 ;
   border-radius: 30px;
   padding: 50px 30px;
   width: 500px;
@@ -43,7 +43,7 @@ h2 {
   border-radius: 10px;
   border:none;
   font-size:16px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 .confirm-dialog-input:focus {
   outline: none;

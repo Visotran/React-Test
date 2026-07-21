@@ -1,4 +1,4 @@
-.error-container {
+.error-container, .loading-container {
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -14,6 +14,14 @@
   color: #d94545;
   font-size: 20px;
   margin:0px;
+  line-height: 28px;
+}
+
+.add-entry-error-message {
+  color: #d94545;
+  font-size: 20px;
+  margin:0px;
+  margin-bottom: 15px;
   line-height: 28px;
 }
 
@@ -35,12 +43,6 @@
   background-color: #b83131;
 }
 
-
-.loading-container {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
 
 .loading-icon {
   width: 35px;
@@ -65,7 +67,7 @@
   }
 }
 
-.loading-message {
+.add-entry-loading-message {
   color: #ccc;
   font-size: 20px;
   margin:0px;

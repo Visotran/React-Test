@@ -3,14 +3,14 @@ h2 {
   margin-top:0px;
 }
 
-.overlay-container {
+.add-overlay-container {
   position: fixed;
   inset: 0;              
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 50;
 }
 
-.confirm-dialog-container {
+.add-confirm-dialog-container {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -32,34 +32,34 @@ h2 {
 }
 
 
-.confirm-dialog-label {
+.add-confirm-dialog-label {
   font-size:20px;
   margin-bottom: 10px;
   margin-top:0;
 }
 
-.confirm-dialog-input {
+.add-confirm-dialog-input {
   padding:10px;
   border-radius: 10px;
   border:none;
   font-size:16px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
-.confirm-dialog-input:focus {
+.add-confirm-dialog-input:focus {
   outline: none;
   padding:7px;
   border: 3px solid rgb(45, 129, 255);
 }
 
 
-.dialog-buttons-container {
+.add-dialog-buttons-container {
   display:flex;
   align-items: center;
   justify-content: space-evenly;
   width:100%
 }
 
-.confirm-add-button, .cancel-add-button {
+.add-confirm-add-button, .add-cancel-add-button {
   border:none;
   padding: 15px 30px;
   border-radius: 20px;
@@ -68,20 +68,20 @@ h2 {
     
 }
 
-.confirm-add-button {
+.add-confirm-add-button {
   background-color: rgb(63, 66, 163);
 }
 
-.cancel-add-button {
+.add-cancel-add-button {
    background-color: rgb(108, 126, 152);
 }
 
-.confirm-add-button:hover {
+.add-confirm-add-button:hover {
   background-color: rgb(57, 59, 145);
   cursor:pointer;
 }
 
- .cancel-add-button:hover {
+.add-cancel-add-button:hover {
   background-color: rgb(81, 93, 109);
   cursor:pointer;
  }

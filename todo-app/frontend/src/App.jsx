@@ -1,7 +1,7 @@
 import './App.css';
 import TodoEntry from './TodoEntry.jsx';
 import ConfirmDeleteDialog from './ConfirmDeleteDialog.jsx';
-import NewEntryDialog from "./NewEntryDialog.jsx";
+import NewEntryDialog from "./NewEntryDialog/NewEntryDialog.jsx";
 import EditEntryDialog from "./EditEntryDialog.jsx";
 import StatusMessage from './StatusMessage.jsx';
 import {useState, useEffect} from "react";
@@ -53,23 +53,6 @@ function App() {
 
   //Zu löschender Todo Eintrag als State
   const [todoToDelete, setTodoToDelete] = useState(null);
-
-
-  //Todo Eintrag hinzufügen
-  const addTodo = async () => {
-    try {
-      const response = await axios.post('http://localhost:3000/api', {name: name, deadline: deadline});
-      console.log('Antwort:', response.data);
-    } catch (error) {
-      console.error('Fehler:', error);
-    }
-
-    fetchData();
-    setName("");
-    setDeadline("");
-
-    setIsAddDialogOpen(false);
-  };
 
 
   //Löschen von einem Todo Eintrag anfragen
@@ -153,8 +136,8 @@ function App() {
           deadline={deadline}
           setName={setName}
           setDeadline={setDeadline}
-          onAdd={addTodo}
-          onClose={() => setIsAddDialogOpen(false)}
+          setIsAddDialogOpen={setIsAddDialogOpen}
+          fetchDataFunc={fetchData}
         />
         <EditEntryDialog 
           isOpen={isEditDialogOpen}
