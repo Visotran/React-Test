@@ -14,10 +14,10 @@ h2 {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); 
   z-index: 101;                   
 
-  background-color: #23385e ;
+  background-color: #273349 ;
   border-radius: 30px;
   padding: 50px 30px;
   width: 500px;

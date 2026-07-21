@@ -2,7 +2,8 @@ import './App.css';
 import TodoEntry from './TodoEntry.jsx';
 import ConfirmDeleteDialog from './ConfirmDeleteDialog.jsx';
 import NewEntryDialog from "./NewEntryDialog.jsx";
-import EditEntryDialog from "./EditEntryDialog.jsx"
+import EditEntryDialog from "./EditEntryDialog.jsx";
+import StatusMessage from './StatusMessage.jsx';
 import {useState, useEffect} from "react";
 import axios from 'axios';
 
@@ -12,19 +13,25 @@ function App() {
   //Todo Einträge als State 
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const {data: response} = await axios.get('http://localhost:3000/api');
-        setTodos(response);
-      } catch (error) {
-        console.error(error.message);
-      }
+  const fetchData = async () => {
+
+    setLoading(true);
+    setErrorMessage(null);
+    
+    try {
+      const {data: response} = await axios.get('http://localhost:3000/api');
+      setTodos(response);
+    } catch (error) {
+      setErrorMessage(error);
+    }
+    finally {
       setLoading(false);
     }
+  }
 
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -130,7 +137,9 @@ function App() {
               />
             ))
           }
+          
         </div>
+        <StatusMessage error={errorMessage}  loading={loading} reloadFunc={fetchData}></StatusMessage>
         <ConfirmDeleteDialog
           todo={todoToDelete}
           onConfirmDelete={confirmDeleteTodo}
