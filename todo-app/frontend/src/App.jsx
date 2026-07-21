@@ -56,22 +56,20 @@ function App() {
 
 
   //Todo Eintrag hinzufügen
-  function addTodo() {
-    if (!name.trim() || !deadline) return
+  const addTodo = async () => {
+    try {
+      const response = await axios.post('http://localhost:3000/api', {name: name, deadline: deadline});
+      console.log('Antwort:', response.data);
+    } catch (error) {
+      console.error('Fehler:', error);
+    }
 
-    const newTodo = {
-      id: Date.now(),
-      name,
-      deadline
-    };
-
-    setTodos(prev => [...prev, newTodo]);
-
+    fetchData();
     setName("");
     setDeadline("");
 
     setIsAddDialogOpen(false);
-  }
+  };
 
 
   //Löschen von einem Todo Eintrag anfragen
