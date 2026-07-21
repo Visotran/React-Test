@@ -43,9 +43,11 @@ function App() {
   //Dialogfenster zum hinzufügen eines Todo Eintrags als State
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
 
+  //Dialogfenster zum Bearbeiten eines Todo Eintrags als State
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [todoToEdit, setTodoToEdit] = useState(null);
 
+  //States zum Speichern der Daten zum Hinzufügen / bearbeiten eines Todos
   const [name, setName] = useState("");
   const [deadline, setDeadline] = useState("");
 
@@ -93,6 +95,7 @@ function App() {
     setTodoToDelete(null)
   }
 
+
   //Todo bearbeiten
   function editTodo(todo) {
     if (!isEditDialogOpen) {
@@ -103,6 +106,7 @@ function App() {
     }
   }
 
+  //Todo bearbeiten bestätigen
   function confirmEditTodo() {
     let newTodos = todos.map(todo => { 
       if (todo.id === todoToEdit.id) {
