@@ -26,7 +26,7 @@ app.get('/api', async (req, res) => {
 })
 
 app.post('/api', async (req, res) => {
-  
+
   const entry = req.body;
 
   try {
@@ -65,15 +65,44 @@ app.post('/api', async (req, res) => {
 
     // Fehlermeldung
     console.error(err);
-    return res.status(500).json({ error: "Todo konnte nicht erstellt werden. Versuch es später erneut" });
+    return res.status(500).json({ error: "Todo konnte nicht erstellt werden. Versuche es später erneut" });
+  }
+});
+
+app.delete('/api/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+
+  try {
+
+    // Bestehende JSON-Datei einlesen
+    const currentData = await fs.readFile(jsonPath, "utf8");
+    const currentEntries = JSON.parse(currentData);
+
+    const index = currentEntries.findIndex(item => item.id === id);
+
+    // Prüfen, ob das Element existiert, das gelöscht werden soll
+    if (!index || index === -1) {
+      return res.status(404).json({ error: "Der zu löschende Todo-Eintrag wurde nicht gefunden" });
+    }
+
+    // Eintrag aus dem Array entfernen
+    console.log("Eintrag gelöscht: " + currentEntries[index].name);
+    currentEntries.splice(index, 1);
+
+    // Neue JSON-Datei schreiben
+    await fs.writeFile(jsonPath, JSON.stringify(currentEntries));
+
+    // Erfolgsmeldung
+    res.status(201).json(newTodo);
+  } catch (err) {
+
+    // Fehlermeldung
+    console.error(err);
+    return res.status(500).json({ error: "Todo konnte nicht gelöscht werden. Versuche es später erneut" });
   }
 });
 
 app.patch('/api', (req, res) => {
-
-});
-
-app.delete('/api', (req, res) => {
 
 });
 
