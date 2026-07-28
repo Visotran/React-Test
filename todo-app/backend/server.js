@@ -15,6 +15,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const jsonPath = path.join(__dirname, "data", "todos.json");
 
+
+// GET
 app.get('/api', async (req, res) => {
   try {
     const data = await fs.readFile(jsonPath, "utf8");
@@ -25,6 +27,8 @@ app.get('/api', async (req, res) => {
   }
 })
 
+
+// POST
 app.post('/api', async (req, res) => {
 
   const entry = req.body;
@@ -69,19 +73,23 @@ app.post('/api', async (req, res) => {
   }
 });
 
-app.delete('/api/:id', (req, res) => {
-  const id = parseInt(req.params.id);
+
+// DELETE
+app.delete('/api/:id', async (req, res) => {
 
   try {
+
+    const id = parseInt(req.params.id);
 
     // Bestehende JSON-Datei einlesen
     const currentData = await fs.readFile(jsonPath, "utf8");
     const currentEntries = JSON.parse(currentData);
 
     const index = currentEntries.findIndex(item => item.id === id);
+    const name = currentEntries[index];
 
     // Prüfen, ob das Element existiert, das gelöscht werden soll
-    if (!index || index === -1) {
+    if ((!index && index !== 0) || index === -1) {
       return res.status(404).json({ error: "Der zu löschende Todo-Eintrag wurde nicht gefunden" });
     }
 
@@ -93,7 +101,7 @@ app.delete('/api/:id', (req, res) => {
     await fs.writeFile(jsonPath, JSON.stringify(currentEntries));
 
     // Erfolgsmeldung
-    res.status(201).json(newTodo);
+    res.status(201).json(name);
   } catch (err) {
 
     // Fehlermeldung
@@ -102,6 +110,8 @@ app.delete('/api/:id', (req, res) => {
   }
 });
 
+
+// PATCH
 app.patch('/api', (req, res) => {
 
 });

@@ -1,81 +1,63 @@
 import './App.css';
 import TodoEntry from './TodoEntry.jsx';
-import ConfirmDeleteDialog from './ConfirmDeleteDialog.jsx';
+import ConfirmDeleteDialog from './DeleteEntryDialog/ConfirmDeleteDialog.jsx';
 import NewEntryDialog from "./NewEntryDialog/NewEntryDialog.jsx";
 import EditEntryDialog from "./EditEntryDialog.jsx";
 import StatusMessage from './StatusMessage.jsx';
-import {useState, useEffect} from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from 'axios';
 
 //App
 function App() {
-  
+
   //Todo Einträge als State 
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const fetchData = async () => {
-
+  const fetchData = useCallback(async () => {
     setLoading(true);
     setErrorMessage(null);
-    
+
     try {
-      const {data: response} = await axios.get('http://localhost:3000/api');
-      setTodos(response);
+      const { data } = await axios.get("http://localhost:3000/api");
+      setTodos(data);
     } catch (error) {
-      setErrorMessage(error);
-    }
-    finally {
+      setErrorMessage(error.message);
+    } finally {
       setLoading(false);
     }
-  }
-
-  useEffect(() => {
-    fetchData();
   }, []);
 
-  //Änderungen in Todo Einträgen als Effect
   useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos))
-  }, [todos]);
+    const timeout = setTimeout(() => {
+      fetchData();
+    }, 0);
+
+    return () => clearTimeout(timeout);
+  }, [fetchData]);
+
 
   //Dialogfenster zum hinzufügen eines Todo Eintrags als State
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-
-  //Dialogfenster zum Bearbeiten eines Todo Eintrags als State
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [todoToEdit, setTodoToEdit] = useState(null);
 
   //States zum Speichern der Daten zum Hinzufügen / bearbeiten eines Todos
   const [name, setName] = useState("");
   const [deadline, setDeadline] = useState("");
 
+
   //Zu löschender Todo Eintrag als State
   const [todoToDelete, setTodoToDelete] = useState(null);
-
 
   //Löschen von einem Todo Eintrag anfragen
   function requestDeleteTodo(todo) {
     setTodoToDelete(todo);
   }
 
-  //Löschen von einem Todo Eintrag bestätigen
-  function confirmDeleteTodo() {
-    setTodos(prev => 
-      prev.filter(todo => todo.id !== todoToDelete.id)
-    );
 
-    localStorage.setItem("todos", JSON.stringify(todos))
-
-    setTodoToDelete(null);
-  }
-
-  //Löschen von einem Todo Eintrag abbrechen
-  function cancelDeleteTodo() {
-    setTodoToDelete(null)
-  }
-
+  //Dialogfenster zum Bearbeiten eines Todo Eintrags als State
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [todoToEdit, setTodoToEdit] = useState(null);
 
   //Todo bearbeiten
   function editTodo(todo) {
@@ -89,7 +71,7 @@ function App() {
 
   //Todo bearbeiten bestätigen
   function confirmEditTodo() {
-    let newTodos = todos.map(todo => { 
+    let newTodos = todos.map(todo => {
       if (todo.id === todoToEdit.id) {
         todo.deadline = deadline;
         todo.name = name;
@@ -110,51 +92,51 @@ function App() {
   //Ausgabe
   return (
     <div className="app-container">
-        <h1 className="title">To-Do-Liste</h1>
-        <div className="todo-entries-container">
-          {
-            todos.map(todo => (
-              <TodoEntry
-                key={todo.id}
-                todo={todo}
-                onDelete={requestDeleteTodo}
-                onEdit={editTodo}
-              />
-            ))
-          }
-          
-        </div>
-        <StatusMessage error={errorMessage}  loading={loading} reloadFunc={fetchData}></StatusMessage>
-        <ConfirmDeleteDialog
-          todo={todoToDelete}
-          onConfirmDelete={confirmDeleteTodo}
-          onCancelDelete={cancelDeleteTodo}
-        />
-        <NewEntryDialog 
-          isOpen={isAddDialogOpen}
-          name={name}
-          deadline={deadline}
-          setName={setName}
-          setDeadline={setDeadline}
-          setIsAddDialogOpen={setIsAddDialogOpen}
-          fetchDataFunc={fetchData}
-        />
-        <EditEntryDialog 
-          isOpen={isEditDialogOpen}
-          todo={todoToEdit}
-          name={name}
-          deadline={deadline}
-          setName={setName}
-          setDeadline={setDeadline}
-          onAdd={confirmEditTodo}
-          onClose={() => {
-            setIsEditDialogOpen(false);
-            setTodoToEdit(null)
-          }}
-        />
-        <button className="add-button" onClick={() => setIsAddDialogOpen(true)}>
-          Hinzufügen
-        </button>
+      <h1 className="title">To-Do-Liste</h1>
+      <div className="todo-entries-container">
+        {
+          todos.map(todo => (
+            <TodoEntry
+              key={todo.id}
+              todo={todo}
+              onDelete={requestDeleteTodo}
+              onEdit={editTodo}
+            />
+          ))
+        }
+
+      </div>
+      <StatusMessage error={errorMessage} loading={loading} reloadFunc={fetchData}></StatusMessage>
+      <ConfirmDeleteDialog
+        todo={todoToDelete}
+        setTodoToDelete={setTodoToDelete}
+        fetchDataFunc={fetchData}
+      />
+      <NewEntryDialog
+        isOpen={isAddDialogOpen}
+        name={name}
+        deadline={deadline}
+        setName={setName}
+        setDeadline={setDeadline}
+        setIsAddDialogOpen={setIsAddDialogOpen}
+        fetchDataFunc={fetchData}
+      />
+      <EditEntryDialog
+        isOpen={isEditDialogOpen}
+        todo={todoToEdit}
+        name={name}
+        deadline={deadline}
+        setName={setName}
+        setDeadline={setDeadline}
+        onAdd={confirmEditTodo}
+        onClose={() => {
+          setIsEditDialogOpen(false);
+          setTodoToEdit(null)
+        }}
+      />
+      <button className="add-button" onClick={() => setIsAddDialogOpen(true)}>
+        Hinzufügen
+      </button>
     </div>
   );
 }
