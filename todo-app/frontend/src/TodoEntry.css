@@ -6,6 +6,7 @@
 }
 .todo-entry-name {
     flex:1;
+    padding-right:15px;
 }
 .delete-button {
     background-color: #d94545;
