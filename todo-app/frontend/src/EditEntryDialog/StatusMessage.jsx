@@ -4,14 +4,14 @@ import '../StatusMessage.css';
 function StatusMessage({error, loading}) {
   function getErrorMessage(err) {
     if (err?.status == "500") {
-      return "Beim Speichern des neuen Todo-Eintrags ist leider ein Serverproblem aufgetreten. Versuche es später erneut.";
+      return "Beim Bearbeiten des Todo-Eintrags ist leider ein Serverproblem aufgetreten. Versuche es später erneut.";
     }
 
     if (error?.response?.data?.error) {
       return error.response.data.error;
     }
 
-    return "Beim Speichern des neuen Todo-Eintrags ist leider ein Fehler aufgetreten. Stelle sicher, dass eine Internetverbindung besteht, oder versuche es später erneut.";
+    return "Beim Bearbeiten des Todo-Eintrags ist leider ein Fehler aufgetreten. Stelle sicher, dass eine Internetverbindung besteht, oder versuche es später erneut.";
   }
 
   if (!error && !loading) return;
@@ -19,7 +19,7 @@ function StatusMessage({error, loading}) {
   if (loading) return (
     <div className="loading-container">
       <div className="loading-icon"></div>
-      <p className="loading-message">Todo-Eintrag speichern...</p>
+      <p className="loading-message">Änderungen speichern...</p>
     </div>
   )
 

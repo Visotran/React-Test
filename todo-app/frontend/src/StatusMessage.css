@@ -4,6 +4,13 @@
   align-items: center;
 }
 
+.dialog-error-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center; 
+  margin-bottom: 15px;
+}
+
 .error-icon {
   height:40px;
   width: 40px;
@@ -14,14 +21,6 @@
   color: #d94545;
   font-size: 20px;
   margin:0px;
-  line-height: 28px;
-}
-
-.add-entry-error-message {
-  color: #d94545;
-  font-size: 20px;
-  margin:0px;
-  margin-bottom: 15px;
   line-height: 28px;
 }
 

@@ -2,7 +2,7 @@ import './App.css';
 import TodoEntry from './TodoEntry.jsx';
 import ConfirmDeleteDialog from './DeleteEntryDialog/ConfirmDeleteDialog.jsx';
 import NewEntryDialog from "./NewEntryDialog/NewEntryDialog.jsx";
-import EditEntryDialog from "./EditEntryDialog.jsx";
+import EditEntryDialog from "./EditEntryDialog/EditEntryDialog.jsx";
 import StatusMessage from './StatusMessage.jsx';
 import { useState, useEffect, useCallback } from "react";
 import axios from 'axios';
@@ -56,38 +56,12 @@ function App() {
 
 
   //Dialogfenster zum Bearbeiten eines Todo Eintrags als State
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [todoToEdit, setTodoToEdit] = useState(null);
 
   //Todo bearbeiten
   function editTodo(todo) {
-    if (!isEditDialogOpen) {
-      setIsEditDialogOpen(true);
-      setName(todo.name);
-      setDeadline(todo.deadline);
-      setTodoToEdit(todo);
-    }
+    setTodoToEdit(todo);
   }
-
-  //Todo bearbeiten bestätigen
-  function confirmEditTodo() {
-    let newTodos = todos.map(todo => {
-      if (todo.id === todoToEdit.id) {
-        todo.deadline = deadline;
-        todo.name = name;
-      }
-
-      return todo;
-    });
-
-    setTodos(newTodos);
-
-    localStorage.setItem("todos", JSON.stringify(todos))
-
-    setIsEditDialogOpen(false);
-    setTodoToEdit(null);
-  }
-
 
   //Ausgabe
   return (
@@ -122,17 +96,9 @@ function App() {
         fetchDataFunc={fetchData}
       />
       <EditEntryDialog
-        isOpen={isEditDialogOpen}
-        todo={todoToEdit}
-        name={name}
-        deadline={deadline}
-        setName={setName}
-        setDeadline={setDeadline}
-        onAdd={confirmEditTodo}
-        onClose={() => {
-          setIsEditDialogOpen(false);
-          setTodoToEdit(null)
-        }}
+        todoToEdit={todoToEdit}
+        setTodoToEdit={setTodoToEdit}
+        fetchDataFunc={fetchData}
       />
       <button className="add-button" onClick={() => setIsAddDialogOpen(true)}>
         Hinzufügen

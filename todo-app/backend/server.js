@@ -31,9 +31,9 @@ app.get('/api', async (req, res) => {
 // POST
 app.post('/api', async (req, res) => {
 
-  const entry = req.body;
-
   try {
+
+    const entry = req.body;
 
     // Bestehende JSON-Datei einlesen
     const currentData = await fs.readFile(jsonPath, "utf8");
@@ -112,8 +112,60 @@ app.delete('/api/:id', async (req, res) => {
 
 
 // PATCH
-app.patch('/api', (req, res) => {
+app.patch('/api/:id', async (req, res) => {
 
+  const id = parseInt(req.params.id);
+  const {newName, newDeadline} = req?.body ?? undefined;
+
+  try {
+
+    // Bestehende JSON-Datei einlesen
+    const currentData = await fs.readFile(jsonPath, "utf8");
+    const currentEntries = JSON.parse(currentData);
+
+    const todo = currentEntries.find(todo => todo.id === id);
+
+    // Prüfen, ob das Element existiert, das verändert werden soll
+    if (!todo) {
+      return res.status(404).json({ error: "Der zu bearbeitende Todo-Eintrag wurde nicht gefunden" });
+    }
+
+    // Prüfen, ob die mitgeschickten Werte gültig sind, und falls ja diese benutzen
+    let newTodo = {id: id};
+
+    if (!newName && !newDeadline) {
+      return res.status(400).json({error: "Keine Änderung angegeben"});
+    }
+
+    if (newName !== undefined) {
+      if (typeof newName !== "string" || newName.trim() === "") {
+        return res.status(400).json({error: "Der mitgeschickte neue Name ist ungültig"});
+      }
+
+      todo.name = newName;
+    }
+
+    if (newDeadline !== undefined) {
+      if (typeof newDeadline !== "string" || newDeadline.trim() === "") {
+        return res.status(400).json({error: "Die mitgeschickte neue Deadline ist ungültig"});
+      }
+
+      todo.deadline = newDeadline;
+    }
+
+    console.log("Eintrag bearbeitet: " + todo.name + " - " + todo.deadline);
+
+    // Neue JSON-Datei schreiben
+    await fs.writeFile(jsonPath, JSON.stringify(currentEntries));
+
+    // Erfolgsmeldung
+    res.status(201).json(newTodo);
+  } catch (err) {
+
+    // Fehlermeldung
+    console.error(err);
+    return res.status(500).json({ error: "Todo konnte nicht erstellt werden. Versuche es später erneut" });
+  }
 });
 
 app.listen(3000, () => {

@@ -25,9 +25,9 @@ function StatusMessage({error, loading}) {
 
   if (error) return (
     <>
-      <div className="error-container">
+      <div className="dialog-error-container">
         <img className="error-icon" src={infoIcon}></img>
-        <p className="add-entry-error-message">{getErrorMessage(error)}</p>
+        <p className="error-message">{getErrorMessage(error)}</p>
       </div>
     </>
   )
