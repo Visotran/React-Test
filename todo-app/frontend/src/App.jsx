@@ -20,7 +20,7 @@ function App() {
     setErrorMessage(null);
 
     try {
-      const { data } = await axios.get("http://localhost:3000/api");
+      let { data } = await axios.get("http://localhost:3000/api");
       setTodos(data);
     } catch (error) {
       setErrorMessage(error.message);
@@ -69,7 +69,7 @@ function App() {
       <h1 className="title">To-Do-Liste</h1>
       <div className="todo-entries-container">
         {
-          todos.map(todo => (
+          (todos.length === 0 && !loading) ? "No todos yet..." : todos.map(todo => (
             <TodoEntry
               key={todo.id}
               todo={todo}
