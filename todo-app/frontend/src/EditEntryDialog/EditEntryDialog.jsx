@@ -17,7 +17,6 @@ function NewEntryDialog({ todoToEdit, setTodoToEdit, fetchDataFunc }) {
     const loadOldValues = async() => {
       setNewName(todoToEdit?.name ?? undefined);
       setNewDeadline(todoToEdit?.deadline ?? undefined);
-      console.log("AAAAAAAAAAAAAA")
     }
     loadOldValues();
   }, [todoToEdit])
@@ -28,7 +27,6 @@ function NewEntryDialog({ todoToEdit, setTodoToEdit, fetchDataFunc }) {
 
   //Todo bearbeiten bestätigen
   const confirmEditTodo = async () => {
-    console.log(newDeadline && newDeadline !== oldDeadline)
     setLoading(true);
     setErrorMessage(null);
 
@@ -40,7 +38,6 @@ function NewEntryDialog({ todoToEdit, setTodoToEdit, fetchDataFunc }) {
       changes.newDeadline = newDeadline
     }
 
-    console.log(changes)
 
     try {
       const response = await axios.patch(`http://localhost:3000/api/${todoToEdit.id}`, changes);

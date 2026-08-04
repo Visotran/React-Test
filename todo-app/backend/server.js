@@ -14,7 +14,6 @@ app.use(morgan("dev"));
 app.get('/api', async (req, res) => {
   try {
     const data = await pool.query("SELECT * FROM todos ORDER BY id");
-    console.log(data);
     res.json(data.rows);
   } catch (err) {
     console.error(err);

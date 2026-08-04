@@ -15,8 +15,7 @@ function ConfirmDeleteDialog({todo, setTodoToDelete, fetchDataFunc}) {
     setErrorMessage(null);
 
     try {
-      const response = await axios.delete(`http://localhost:3000/api/${todo.id}`);
-      console.log('Antwort:', response.data);
+      await axios.delete(`http://localhost:3000/api/${todo.id}`);
       fetchDataFunc();
 
       onCloseDeleteDialog();
@@ -61,7 +60,6 @@ function ConfirmDeleteDialog({todo, setTodoToDelete, fetchDataFunc}) {
         <p className="delete-dialog-text">
           Willst du den Eintrag "{todo.name}" wirklich löschen?
         </p>
-        {console.log("Todo: " + todo)}
 
         <StatusMessage error={errorMessage} loading={loading}></StatusMessage>
         <div className="dialog-buttons-container">
