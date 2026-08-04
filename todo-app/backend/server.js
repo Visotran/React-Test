@@ -1,9 +1,7 @@
 import express from "express";
-import path from "path";
-import { fileURLToPath } from "url";
-import fs from "fs/promises";
 import cors from "cors";
 import morgan from "morgan";
+import pool from "./db.js";
 
 const app = express();
 
@@ -11,16 +9,13 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const jsonPath = path.join(__dirname, "data", "todos.json");
-
 
 // GET
 app.get('/api', async (req, res) => {
   try {
-    const data = await fs.readFile(jsonPath, "utf8");
-    res.json(JSON.parse(data));
+    const data = await pool.query("SELECT * FROM todos ORDER BY id");
+    console.log(data);
+    res.json(data.rows);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Interner Serverfehler" });
@@ -35,36 +30,27 @@ app.post('/api', async (req, res) => {
 
     const entry = req.body;
 
-    // Bestehende JSON-Datei einlesen
-    const currentData = await fs.readFile(jsonPath, "utf8");
-    const currentEntries = JSON.parse(currentData);
-
-    // Prüfen, ob der Body oder ein einzelnes Feld leer sind oder das Todo bereits existiert
+    // Prüfen, ob der Body oder ein einzelnes Feld leer sind
     if (!entry || entry === {}) {
       return res.status(400).json({ error: "Der Todo-Eintrag darf nicht leer sein" });
     }
     if (!entry.name || entry.name.trim() === "" || !entry.deadline || entry.deadline.trim() === "") {
       return res.status(400).json({ error: "Alle Felder des neuen Todo-Eintrags müssen ausgefüllt sein" });
     }
-    if (currentEntries.some(todo => todo.name === entry.name)) {
+
+    // Überprüfen, ob ein solcher Eintrag bereits existiert
+    const query = await pool.query("SELECT * FROM todos WHERE name = $1", [entry.name]);
+    if (!query.rowCount === 0) { 
       return res.status(400).json({ error: "Es gibt bereits ein Todo-Eintrag mit diesem Namen" });
     }
 
-    // Neuen Eintrag ins Array hinzufügen
-    const newTodo = {
-      id: Date.now(),
-      name: entry.name,
-      deadline: entry.deadline
-    }
-    currentEntries.push(newTodo);
-
+    // Neuen Eintrag zur Datenbank hinzufügen
+    await pool.query(`INSERT INTO todos(name, deadline) VALUES ($1, $2)`, [entry.name, entry.deadline]);
     console.log("Neuer Eintrag hinzugefügt: " + entry.name);
 
-    // Neue JSON-Datei schreiben
-    await fs.writeFile(jsonPath, JSON.stringify(currentEntries));
-
     // Erfolgsmeldung
-    res.status(201).json(newTodo);
+    const id = await pool.query("SELECT id FROM todos WHERE name = $1", [entry.name]);
+    res.status(201).json({id: id, name: entry.name, deadline: entry.deadline});
   } catch (err) {
 
     // Fehlermeldung
@@ -81,27 +67,17 @@ app.delete('/api/:id', async (req, res) => {
 
     const id = parseInt(req.params.id);
 
-    // Bestehende JSON-Datei einlesen
-    const currentData = await fs.readFile(jsonPath, "utf8");
-    const currentEntries = JSON.parse(currentData);
-
-    const index = currentEntries.findIndex(item => item.id === id);
-    const name = currentEntries[index];
-
     // Prüfen, ob das Element existiert, das gelöscht werden soll
-    if ((!index && index !== 0) || index === -1) {
+    const query = await pool.query("SELECT * FROM todos WHERE id = $1", [id]);
+    if (!query.rowCount === 0) {
       return res.status(404).json({ error: "Der zu löschende Todo-Eintrag wurde nicht gefunden" });
     }
 
-    // Eintrag aus dem Array entfernen
-    console.log("Eintrag gelöscht: " + currentEntries[index].name);
-    currentEntries.splice(index, 1);
-
-    // Neue JSON-Datei schreiben
-    await fs.writeFile(jsonPath, JSON.stringify(currentEntries));
+    // Das Element aus der Datenbank löschen
+    await pool.query("DELETE FROM todos WHERE id = $1", [id])
 
     // Erfolgsmeldung
-    res.status(201).json(name);
+    res.status(201).json(id);
   } catch (err) {
 
     // Fehlermeldung
@@ -119,47 +95,37 @@ app.patch('/api/:id', async (req, res) => {
 
   try {
 
-    // Bestehende JSON-Datei einlesen
-    const currentData = await fs.readFile(jsonPath, "utf8");
-    const currentEntries = JSON.parse(currentData);
-
-    const todo = currentEntries.find(todo => todo.id === id);
-
     // Prüfen, ob das Element existiert, das verändert werden soll
-    if (!todo) {
+    const query = await pool.query("SELECT * FROM todos WHERE id = $1", [id]);
+    if (!query.rowCount === 0) {
       return res.status(404).json({ error: "Der zu bearbeitende Todo-Eintrag wurde nicht gefunden" });
     }
 
-    // Prüfen, ob die mitgeschickten Werte gültig sind, und falls ja diese benutzen
-    let newTodo = {id: id};
-
+    // Prüfen, ob überhaupt Änderungen angegeben wurden
     if (!newName && !newDeadline) {
       return res.status(400).json({error: "Keine Änderung angegeben"});
     }
 
+    // Prüfen, ob der angegebene neue Name gültig ist
     if (newName !== undefined) {
       if (typeof newName !== "string" || newName.trim() === "") {
         return res.status(400).json({error: "Der mitgeschickte neue Name ist ungültig"});
       }
 
-      todo.name = newName;
+      await pool.query("Update todos SET name = $1 WHERE id = $2", [newName, id]);
     }
 
+    // Prüfen, ob die angegebene neue Deadline gültig ist
     if (newDeadline !== undefined) {
       if (typeof newDeadline !== "string" || newDeadline.trim() === "") {
         return res.status(400).json({error: "Die mitgeschickte neue Deadline ist ungültig"});
       }
 
-      todo.deadline = newDeadline;
+      await pool.query("Update todos SET deadline = $1 WHERE id = $2", [newDeadline, id]);
     }
 
-    console.log("Eintrag bearbeitet: " + todo.name + " - " + todo.deadline);
-
-    // Neue JSON-Datei schreiben
-    await fs.writeFile(jsonPath, JSON.stringify(currentEntries));
-
     // Erfolgsmeldung
-    res.status(201).json(newTodo);
+    res.status(201).json({id: id, name: newName, deadline: newDeadline});
   } catch (err) {
 
     // Fehlermeldung
