@@ -1,7 +1,7 @@
 .app-container {
   background-color: #273349 ;
   padding:50px 100px;
-  width: min(900px, 80%);
+  width: min(900px, 75%);
   min-height: 300px;
   margin: 50px auto;
   max-width: 900px;

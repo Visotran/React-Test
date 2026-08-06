@@ -41,7 +41,7 @@ app.post('/api', async (req, res) => {
 
     // Überprüfen, ob ein solcher Eintrag bereits existiert
     const query = await pool.query("SELECT * FROM todos WHERE name = $1", [entry.name]);
-    if (!query.rowCount === 0) {
+    if (query.rowCount !== 0) {
       return res.status(409).json({ error: "Es gibt bereits ein Todo-Eintrag mit diesem Namen" });
     }
 
@@ -150,7 +150,7 @@ app.post('/api/register', async (req, res) => {
 
     // Prüfen, ob der Username bereits existiert
     const query = await pool.query("SELECT * FROM users WHERE username = $1", [username]);
-    if (!query.rowCount === 0) {
+    if (query.rowCount !== 0) {
       return res.status(409).json({ error: "Dieser Name ist bereits vergeben" });
     }
 
@@ -165,13 +165,13 @@ app.post('/api/register', async (req, res) => {
     }
 
     // Passwort hashen
-    const passwordHash = await bcrypt.hash(userPassword, 10);
+    const passwordHash = await bcrypt.hash(password, 10);
 
     // Den Namen zur Datenbank hinzufügen
-    await pool.query("INSERT INTO users(username, password) VALUES ($1, $2)", [username, passwordHash])
+    await pool.query("INSERT INTO users(username, password_hash) VALUES ($1, $2)", [username, passwordHash])
 
     // Erfolgsmeldung
-    res.status(201).json(id);
+    res.status(201).json({username, passwordHash});
   } catch (err) {
 
     // Fehlermeldung
