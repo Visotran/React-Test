@@ -40,3 +40,13 @@ Features:
 - Vite
 - Axios
 - REST-APIs
+
+## Planned Features
+### Todo App
+[*] Create a Login and a Register Page
+[*] Create the backend for Logins and Registrations
+[*] Expand the database to store users and user-ids for todos 
+[-] Use JWT to secure euch todo list 
+[-] Add a password reset feature
+[-] Add a email verification feature
+[-] Implement rate limiting 
