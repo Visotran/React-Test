@@ -43,12 +43,12 @@ Features:
 
 ## Planned Features
 ### Todo App
-[x] Create a Login and a Register Page
-[x] Create the backend for Logins and Registrations
-[x] Expand the database to store users and user-ids for todos 
-[ ] Use JWT to secure euch todo list 
-[ ] Add a password reset feature
-[ ] Add a email verification feature
-[ ] Implement rate limiting 
-[ ] Cleanup the frontend architecture
-[ ] Cleanup the backend architecture 
+- [x] Create a Login and a Register Page
+- [x] Create the backend for Logins and Registrations
+- [x] Expand the database to store users and user-ids for todos 
+- [ ] Use JWT to secure euch todo list 
+- [ ] Add a password reset feature
+- [ ] Add a email verification feature
+- [ ] Implement rate limiting 
+- [ ] Cleanup the frontend architecture
+- [ ] Cleanup the backend architecture 
