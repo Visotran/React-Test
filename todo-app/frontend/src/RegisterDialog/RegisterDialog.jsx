@@ -1,37 +1,40 @@
-import { useState} from "react";
-import StatusMessage from './StatusMessage.jsx';
+import { useState } from "react";
 import axios from 'axios';
 import "../LoginDialog/LoginDialog.jsx";
-import {Link} from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import { InputFieldError, GeneralError } from "../components/Errors.jsx";
+import { GeneralLoading } from "../components/Loading.jsx";
+import "../LoginDialog/LoginDialog.css";
 
-function LoginDialog() {
+function RegisterDialog() {
 
   // States
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [loadingMessage, setLoadingMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState({});
 
   const navigate = useNavigate();
 
-  //Login
-  const login = async () => {
+  // Registrieren
+  const register = async () => {
 
-    setLoading(true);
+    setLoadingMessage("Account erstellen...");
     setErrorMessage(null);
 
     try {
-      const response = await axios.post('http://localhost:3000/api/register', {username: username, password: password});
-      setLoading(false);
+      await axios.post('http://localhost:3000/api/register', { username: username, password: password });
+      setLoadingMessage(null);
       navigate("/login");
     } catch (error) {
-      console.error('Fehler:', error?.response?.data?.error ?? error);
-      setErrorMessage(error);
+      const rawError = error?.response?.data ?? {general: "Ein Fehler ist aufgetreten. Stelle sicher, dass eine Internetverbindung besteht, oder versuche es später erneut."};;
+      console.error('Fehler: ', rawError);
+      setErrorMessage(rawError);
     }
     finally {
-      setLoading(false);
+      setLoadingMessage(null);
     }
   };
 
@@ -39,28 +42,37 @@ function LoginDialog() {
     <div className="login-container">
       <h1>Registrieren</h1>
 
-      <input
-        className="login-input"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        placeholder="Username"
-      />
+      <div className="login-input-container">
+        <input
+          className="login-input"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Username"
+        />
+        <InputFieldError errorMessage={errorMessage?.username || " "} />
+      </div>
 
-      <input
-        className="login-input"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        type="password"
-        placeholder="Password"
-      />
-      <button className="login-button" onClick={login}>
+      <div className="login-input-container">
+        <input
+          className="login-input"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          type="password"
+          placeholder="Password"
+        />
+        <InputFieldError errorMessage={errorMessage?.password || " "} />
+      </div>
+
+      <button className="login-button" onClick={register}>
         Registrieren
       </button>
-      <Link to="/login" className="login-nav-link">Anmelden</Link>
 
-      <StatusMessage error={errorMessage} loading={loading}></StatusMessage>
+      {!loadingMessage && <GeneralError errorMessage={errorMessage?.general} />}
+      {loadingMessage && <GeneralLoading loadingMessage={loadingMessage} />}
+
+      <Link to="/login" className="login-nav-link">Anmelden</Link>
     </div>
   );
 }
 
-export default LoginDialog;
+export default RegisterDialog;

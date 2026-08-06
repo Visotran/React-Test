@@ -1,65 +1,46 @@
-h2 {
-  margin-bottom:40px;
-  margin-top:0px;
-}
-
-.add-overlay-container {
+.new-entry-overlay {
   position: fixed;
   inset: 0;              
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 50;
 }
-
-.add-confirm-dialog-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); 
-  z-index: 101;                   
-
-  background-color: #273349 ;
-  border-radius: 30px;
-  padding: 50px 30px;
-  width: 500px;
-  max-width: 90vw;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-
+ 
+.new-entry-input-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  gap: 12px;
 }
 
-
-.add-confirm-dialog-label {
+.new-entry-input-label {
   font-size:20px;
   margin-bottom: 10px;
-  margin-top:0;
+  margin-top:10px;
 }
 
-.add-confirm-dialog-input {
+.new-entry-input {
   padding:10px;
   border-radius: 10px;
   border:none;
   font-size:16px;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
+  border: 3px solid transparent;
 }
-.add-confirm-dialog-input:focus {
+.new-entry-input:focus {
   outline: none;
-  padding:7px;
-  border: 3px solid rgb(45, 129, 255);
+  border: 3px solid rgb(94, 96, 176);
 }
 
 
-.add-dialog-buttons-container {
+.new-entry-buttons-container {
   display:flex;
   align-items: center;
-  justify-content: space-evenly;
-  width:100%
+  justify-content: space-between;
+  width:100%;
+  margin-top:20px;
 }
 
-.add-confirm-add-button, .add-cancel-add-button {
+.new-entry-confirm-button, .new-entry-cancel-button {
   border:none;
   padding: 15px 30px;
   border-radius: 20px;
@@ -68,20 +49,20 @@ h2 {
     
 }
 
-.add-confirm-add-button {
+.new-entry-confirm-button {
   background-color: rgb(63, 66, 163);
 }
 
-.add-cancel-add-button {
+.new-entry-cancel-button {
    background-color: rgb(108, 126, 152);
 }
 
-.add-confirm-add-button:hover {
+.new-entry-confirm-button:hover {
   background-color: rgb(57, 59, 145);
   cursor:pointer;
 }
 
-.add-cancel-add-button:hover {
+.new-entry-cancel-button:hover {
   background-color: rgb(81, 93, 109);
   cursor:pointer;
  }

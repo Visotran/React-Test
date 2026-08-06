@@ -1,6 +1,7 @@
 import "./EditEntryDialog.css";
 import { useState, useEffect } from "react";
-import StatusMessage from './StatusMessage.jsx';
+import { InputFieldError, GeneralError } from "../components/Errors.jsx";
+import { GeneralLoading } from "../components/Loading.jsx";
 import axios from "axios";
 
 function NewEntryDialog({ todoToEdit, setTodoToEdit, fetchDataFunc }) {
@@ -12,9 +13,9 @@ function NewEntryDialog({ todoToEdit, setTodoToEdit, fetchDataFunc }) {
   // States für die neuen Werte
   const [newName, setNewName] = useState(todoToEdit?.name ?? undefined);
   const [newDeadline, setNewDeadline] = useState(todoToEdit?.deadline ?? undefined);
-  
+
   useEffect(() => {
-    const loadOldValues = async() => {
+    const loadOldValues = async () => {
       setNewName(todoToEdit?.name ?? undefined);
       setNewDeadline(todoToEdit?.deadline ?? undefined);
     }
@@ -22,12 +23,12 @@ function NewEntryDialog({ todoToEdit, setTodoToEdit, fetchDataFunc }) {
   }, [todoToEdit])
 
   //Todo Eintrag bearbeiten
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [loadingMessage, setLoadingMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState({});
 
   //Todo bearbeiten bestätigen
   const confirmEditTodo = async () => {
-    setLoading(true);
+    setLoadingMessage("Änderungen speichern...");
     setErrorMessage(null);
 
     let changes = {};
@@ -46,17 +47,18 @@ function NewEntryDialog({ todoToEdit, setTodoToEdit, fetchDataFunc }) {
 
       onCloseEditDialog();
     } catch (error) {
-      console.error('Fehler:', error?.response?.data?.error ?? error);
-      setErrorMessage(error);
+      const rawError = error?.response?.data ?? { general: "Ein Fehler ist aufgetreten. Stelle sicher, dass eine Internetverbindung besteht, oder versuche es später erneut." };;
+      console.error('Fehler: ', rawError);
+      setErrorMessage(rawError);
     }
     finally {
-      setLoading(false);
+      setLoadingMessage(null);
     }
   }
 
   // Dialogfenster schließen
   function onCloseEditDialog() {
-    setLoading(false);
+    setLoadingMessage(null);
     setErrorMessage(null);
     setTodoToEdit(null);
   }
@@ -83,29 +85,34 @@ function NewEntryDialog({ todoToEdit, setTodoToEdit, fetchDataFunc }) {
       <div className="confirm-dialog-container">
         <h2>Todo-Eintrag bearbeiten</h2>
 
-        <p className="confirm-dialog-label">
-          Namen des Eintrags bearbeiten:
-        </p>
+        <div className="new-entry-input-container">
+          <p className="new-entry-input-label">
+            Namen des Eintrags bearbeiten:
+          </p>
+          <input
+            className="new-entry-input"
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+            placeholder="Todo Name"
+          />
+          <InputFieldError errorMessage={errorMessage?.name || " "} />
+        </div>
 
-        <input
-          className="confirm-dialog-input"
-          value={newName}
-          onChange={(e) => setNewName(e.target.value)}
-          placeholder="Todo Name"
-        />
+        <div className="new-entry-input-container">
+          <p className="new-entry-input-label">
+            Deadline des Eintrags bearbeiten:
+          </p>
+          <input
+            className="new-entry-input"
+            type="datetime-local"
+            value={newDeadline}
+            onChange={(e) => setNewDeadline(e.target.value)}
+          />
+          <InputFieldError errorMessage={errorMessage?.deadline || " "} />
+        </div>
 
-        <p className="confirm-dialog-label">
-          Deadline des Eintrags bearbeiten:
-        </p>
-
-        <input
-          className="confirm-dialog-input"
-          type="datetime-local"
-          value={newDeadline}
-          onChange={(e) => setNewDeadline(e.target.value)}
-        />
-
-        <StatusMessage error={errorMessage} loading={loading}></StatusMessage>
+        {!loadingMessage && <GeneralError errorMessage={errorMessage?.general} />}
+        {loadingMessage && <GeneralLoading loadingMessage={loadingMessage} />}
 
         <div className="dialog-buttons-container">
           <button className="confirm-add-button" onClick={confirmEditTodo}>

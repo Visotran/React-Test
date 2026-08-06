@@ -1,30 +1,22 @@
 import infoIcon from './assets/info.png';
-import loadingIcon from './assets/loading-spinner.gif';
 import './StatusMessage.css';
 
-function StatusMessage({error, loading, reloadFunc}) {
-  function getErrorMessage(err) {
-    if (err?.status == "500") {
-      return "Beim Laden der To-Do-Einträge ist leider ein Serverproblem aufgetreten. Versuche es später erneut.";
-    }
+function StatusMessage({errorMessage, loadingMessage, reloadFunc}) {
 
-    return "Beim Laden der To-Do-Einträge ist leider ein Fehler aufgetreten. Stelle sicher, dass eine Internetverbindung besteht, oder versuche es später erneut.";
-  }
+  if ((!errorMessage || Object.keys(errorMessage).length === 0) && (!loadingMessage || Object.keys(loadingMessage).length === 0)) return;
 
-  if (!error && !loading) return;
-
-  if (loading) return (
+  if (Object.keys(loadingMessage).length !== 0) return (
     <div className="loading-container">
       <div className="loading-icon"></div>
       <p className="loading-message">Laden der To-Do-Liste...</p>
     </div>
   )
 
-  if (error) return (
+  if (Object.keys(errorMessage).length !== 0) return (
     <>
       <div className="error-container">
         <img className="error-icon" src={infoIcon}></img>
-        <p className="error-message">{getErrorMessage(error)}</p>
+        <p className="error-message">{errorMessage}</p>
       </div>
       <button className="error-button" onClick={reloadFunc}>Erneut versuchen</button>
     </>

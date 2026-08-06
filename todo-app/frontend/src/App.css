@@ -14,6 +14,11 @@ h1 {
   font-size:36px;
 }
 
+h2 {
+  margin-bottom:40px;
+  margin-top:0px;
+}
+
 .add-button {
   background-color: rgb(59, 62, 156);
   border:none;

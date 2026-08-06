@@ -5,7 +5,7 @@
   transform: translate(-50%, -50%);
   z-index: 101;                   
 
-  background-color: #23385e ;
+  background-color: #23385e;
   border-radius: 30px;
   padding: 40px 50px;
   width: 500px;
@@ -16,12 +16,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 5px;
 }
 
 .delete-dialog-text {
   font-size:20px;
   margin-top:0px;
-  margin-bottom:50px;
+  margin-bottom:0px;
   line-height: 1.75;
 }

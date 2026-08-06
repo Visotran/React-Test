@@ -4,7 +4,7 @@ h2 {
 }
 
 .overlay-container {
-  position: fixed;
+  position: fixed; 
   inset: 0;              
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 50;
@@ -17,18 +17,12 @@ h2 {
   transform: translate(-50%, -50%);
   z-index: 101;                   
 
-  background-color: #273349 ;
+  background-color: #23385e;
   border-radius: 30px;
-  padding: 50px 30px;
+  padding: 50px;
   width: 500px;
   max-width: 90vw;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);      
 }
 
 
@@ -44,11 +38,11 @@ h2 {
   border:none;
   font-size:16px;
   margin-bottom: 20px;
+  border: 3px solid transparent;
 }
 .confirm-dialog-input:focus {
   outline: none;
-  padding:7px;
-  border: 3px solid rgb(45, 129, 255);
+  border: 3px solid rgb(94, 96, 176);
 }
 
 
@@ -56,7 +50,8 @@ h2 {
   display:flex;
   align-items: center;
   justify-content: space-evenly;
-  width:100%
+  width:100%;
+  margin-top:5px;
 }
 
 .confirm-add-button, .cancel-add-button {

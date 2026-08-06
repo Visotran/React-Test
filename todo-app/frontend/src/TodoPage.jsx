@@ -12,20 +12,23 @@ function TodoPage() {
 
   //Todo Einträge als State 
   const [todos, setTodos] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+
+  const [loadingMessage, setLoadingMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState({});
 
   const fetchData = useCallback(async () => {
-    setLoading(true);
-    setErrorMessage(null);
+    setLoadingMessage("Laden der Todo-Einträge...");
+    setErrorMessage({});
 
     try {
       let { data } = await axios.get("http://localhost:3000/api");
       setTodos(data);
     } catch (error) {
-      setErrorMessage(error.message);
+      const rawError = error?.response?.data ?? {general: "Ein Fehler ist aufgetreten. Stelle sicher, dass eine Internetverbindung besteht, oder versuche es später erneut."};
+      console.error('Fehler: ', rawError);
+      setErrorMessage(rawError);
     } finally {
-      setLoading(false);
+      setLoadingMessage(null);
     }
   }, []);
 
@@ -69,7 +72,7 @@ function TodoPage() {
       <h1 className="title">To-Do-Liste</h1>
       <div className="todo-entries-container">
         {
-          (todos.length === 0 && !loading && !errorMessage) ? "No todos yet..." : todos.map(todo => (
+          (todos.length === 0 && !loadingMessage && !errorMessage) ? "No todos yet..." : todos.map(todo => (
             <TodoEntry
               key={todo.id}
               todo={todo}
@@ -80,7 +83,7 @@ function TodoPage() {
         }
 
       </div>
-      <StatusMessage error={errorMessage} loading={loading} reloadFunc={fetchData}></StatusMessage>
+      <StatusMessage errorMessage={errorMessage} loadingMessage={loadingMessage} reloadFunc={fetchData}></StatusMessage>
       <ConfirmDeleteDialog
         todo={todoToDelete}
         setTodoToDelete={setTodoToDelete}

@@ -1,21 +1,22 @@
 import { useState, useEffect } from "react";
-import StatusMessage from './StatusMessage.jsx';
+import { InputFieldError, GeneralError } from "../components/Errors.jsx";
+import { GeneralLoading } from "../components/Loading.jsx";
 import axios from 'axios';
 import "./NewEntryDialog.css";
 
-function NewEntryDialog({isOpen, name, deadline, setName, setDeadline, setIsAddDialogOpen, fetchDataFunc}) {
-  
+function NewEntryDialog({ isOpen, name, deadline, setName, setDeadline, setIsAddDialogOpen, fetchDataFunc }) {
+
   //Todo Eintrag hinzufügen
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [loadingMessage, setLoadingMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState({});
 
   const addTodo = async () => {
 
-    setLoading(true);
-    setErrorMessage(null);
+    setLoadingMessage("Todo erstellen...");
+    setErrorMessage({});
 
     try {
-      const response = await axios.post('http://localhost:3000/api', {name: name, deadline: deadline});
+      const response = await axios.post('http://localhost:3000/api', { name: name, deadline: deadline });
       console.log('Antwort:', response.data);
       fetchDataFunc();
       setName("");
@@ -23,17 +24,18 @@ function NewEntryDialog({isOpen, name, deadline, setName, setDeadline, setIsAddD
 
       setIsAddDialogOpen(false);
     } catch (error) {
-      console.error('Fehler:', error?.response?.data?.error ?? error);
-      setErrorMessage(error);
+      const rawError = error?.response?.data ?? {general: "Ein Fehler ist aufgetreten. Stelle sicher, dass eine Internetverbindung besteht, oder versuche es später erneut."};;
+      console.error('Fehler: ', rawError);
+      setErrorMessage(rawError);
     }
     finally {
-      setLoading(false);
+      setLoadingMessage(null);
     }
   };
 
   function onClose() {
-    setErrorMessage(null);
-    setLoading(false);
+    setErrorMessage({});
+    setLoadingMessage(null);
     setIsAddDialogOpen(false);
   }
 
@@ -50,42 +52,49 @@ function NewEntryDialog({isOpen, name, deadline, setName, setDeadline, setIsAddD
       window.removeEventListener("keydown", handleKeyDown)
     }
   })
-  
-  if (!isOpen) return null;  
-  
+
+  if (!isOpen) return null;
+
   return (
-    <div className="add-overlay-container" >
-      <div className="add-confirm-dialog-container">
+    <div className="overlay-container" >
+      <div className="confirm-dialog-container">
         <h2>Neuen Todo-Eintrag hinzufügen</h2>
-          
-        <p className="add-confirm-dialog-label">
-          Welche Aufgabe willst du erledigen:
-        </p>
 
-        <input
-          className="add-confirm-dialog-input"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Todo Name"
-        />
+        <div className="new-entry-input-container">
+          <p className="new-entry-input-label">
+            Welche Aufgabe willst du erledigen:
+          </p>
+          <input
+            className="new-entry-input"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Todo Name"
+          />
+          <InputFieldError errorMessage={errorMessage?.name || " "} />
+        </div>
 
-        <p className="add-confirm-dialog-label">
-          Bis wann soll die Aufgabe erledigt sein:
-        </p>
+        <div className="new-entry-input-container">
+          <p className="new-entry-input-label">
+            Bis wann soll die Aufgabe erledigt sein:
+          </p>
+          <input
+            className="new-entry-input"
+            type="datetime-local"
+            value={deadline}
+            onChange={(e) => setDeadline(e.target.value)}
+          />
+          <InputFieldError errorMessage={errorMessage?.deadline || " "} />
+        </div>
 
-        <input
-          className="add-confirm-dialog-input"
-          type="datetime-local"
-          value={deadline}
-          onChange={(e) => setDeadline(e.target.value)}
-        />
-        <StatusMessage error={errorMessage} loading={loading}></StatusMessage>
-        <div className="add-dialog-buttons-container">
-          <button className="add-confirm-add-button" onClick={addTodo}>
+        {!loadingMessage && <GeneralError errorMessage={errorMessage?.general} />}
+        {loadingMessage && <GeneralLoading loadingMessage={loadingMessage} />}
+
+        <div className="new-entry-buttons-container">
+          <button className="new-entry-confirm-button" onClick={addTodo}>
             Hinzufügen
           </button>
 
-          <button className="add-cancel-add-button" onClick={onClose}>
+          <button className="new-entry-cancel-button" onClick={onClose}>
             Abbrechen
           </button>
         </div>

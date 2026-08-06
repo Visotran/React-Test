@@ -1,30 +1,31 @@
 import "./ConfirmDeleteDialog.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import StatusMessage from './StatusMessage.jsx';
+import { GeneralError } from "../components/Errors.jsx";
+import { GeneralLoading } from "../components/Loading.jsx";
 
 function ConfirmDeleteDialog({todo, setTodoToDelete, fetchDataFunc}) {
   
   //Todo Eintrag löschen
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [loadingMessage, setLoadingMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState({});
 
   const deleteTodo = async () => {
 
-    setLoading(true);
+    setLoadingMessage("Todo löschen...");
     setErrorMessage(null);
 
     try {
       await axios.delete(`http://localhost:3000/api/${todo.id}`);
       fetchDataFunc();
-
       onCloseDeleteDialog();
     } catch (error) {
-      console.error('Fehler:', error?.response?.data?.error ?? error);
-      setErrorMessage(error);
+      const rawError = error?.response?.data ?? {general: "Ein Fehler ist aufgetreten. Stelle sicher, dass eine Internetverbindung besteht, oder versuche es später erneut."};
+      console.error('Fehler: ', rawError);
+      setErrorMessage(rawError);
     }
     finally {
-      setLoading(false);
+      setLoadingMessage(null);
     }
   };
 
@@ -61,7 +62,9 @@ function ConfirmDeleteDialog({todo, setTodoToDelete, fetchDataFunc}) {
           Willst du den Eintrag "{todo.name}" wirklich löschen?
         </p>
 
-        <StatusMessage error={errorMessage} loading={loading}></StatusMessage>
+        {!loadingMessage && <GeneralError errorMessage={errorMessage?.general} />}
+        {loadingMessage && <GeneralLoading loadingMessage={loadingMessage} />}        
+        
         <div className="dialog-buttons-container">
           <button className="confirm-add-button" onClick={deleteTodo}>
             Ja
